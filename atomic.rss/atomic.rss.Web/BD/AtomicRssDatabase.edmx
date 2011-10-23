@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl" Namespace="AtomicRssDatabase.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
+        <EntityContainer Name="AtomicRssDatabaseTargetContainer" >
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="AtomicRssDatabase" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="AtomicRssDatabaseContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ChannelsSet" EntityType="AtomicRssDatabase.Channels" />
+          <EntitySet Name="UsersSet" EntityType="AtomicRssDatabase.Users" />
+          <EntitySet Name="ArticlesSet" EntityType="AtomicRssDatabase.Articles" />
+          <AssociationSet Name="ChannelsArticles" Association="AtomicRssDatabase.ChannelsArticles">
+            <End Role="Channels" EntitySet="ChannelsSet" />
+            <End Role="Articles" EntitySet="ArticlesSet" />
+          </AssociationSet>
+          <AssociationSet Name="UsersChannels" Association="AtomicRssDatabase.UsersChannels">
+            <End Role="Users" EntitySet="UsersSet" />
+            <End Role="Channels" EntitySet="ChannelsSet" />
+          </AssociationSet>
+          <AssociationSet Name="ArticlesReaded" Association="AtomicRssDatabase.UsersArticles">
+            <End Role="Users" EntitySet="UsersSet" />
+            <End Role="Articles" EntitySet="ArticlesSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Channels">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" />
+          <Property Type="String" Name="Link" Nullable="false" />
+          <Property Type="String" Name="Language" Nullable="false" />
+          <Property Type="String" Name="Author" Nullable="false" />
+          <Property Type="String" Name="UpdateFrequency" Nullable="false" />
+          <Property Type="String" Name="Date" Nullable="false" />
+          <NavigationProperty Name="Articles" Relationship="AtomicRssDatabase.ChannelsArticles" FromRole="Channels" ToRole="Articles" />
+          <NavigationProperty Name="Users" Relationship="AtomicRssDatabase.UsersChannels" FromRole="Channels" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Email" Nullable="false" />
+          <Property Type="String" Name="Passwords" Nullable="false" />
+          <NavigationProperty Name="Channels" Relationship="AtomicRssDatabase.UsersChannels" FromRole="Users" ToRole="Channels" />
+          <NavigationProperty Name="Articles" Relationship="AtomicRssDatabase.UsersArticles" FromRole="Users" ToRole="Articles" />
+        </EntityType>
+        <EntityType Name="Articles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" Nullable="false" />
+          <Property Type="String" Name="Link" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" />
+          <Property Type="String" Name="Date" Nullable="false" />
+          <Property Type="String" Name="GUID" Nullable="false" />
+          <NavigationProperty Name="Channels" Relationship="AtomicRssDatabase.ChannelsArticles" FromRole="Articles" ToRole="Channels" />
+          <NavigationProperty Name="Users" Relationship="AtomicRssDatabase.UsersArticles" FromRole="Articles" ToRole="Users" />
+        </EntityType>
+        <Association Name="ChannelsArticles">
+          <End Type="AtomicRssDatabase.Channels" Role="Channels" Multiplicity="1" />
+          <End Type="AtomicRssDatabase.Articles" Role="Articles" Multiplicity="*" />
+        </Association>
+        <Association Name="UsersChannels">
+          <End Type="AtomicRssDatabase.Users" Role="Users" Multiplicity="*" />
+          <End Type="AtomicRssDatabase.Channels" Role="Channels" Multiplicity="*" />
+        </Association>
+        <Association Name="UsersArticles">
+          <End Type="AtomicRssDatabase.Users" Role="Users" Multiplicity="1" />
+          <End Type="AtomicRssDatabase.Articles" Role="Articles" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="AtomicRssDatabase" />
+        <Alias Key="Target" Value="AtomicRssDatabase.Store" />
+        <EntityContainerMapping CdmEntityContainer="AtomicRssDatabaseContainer" StorageEntityContainer="AtomicRssDatabaseTargetContainer">
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="AtomicRssDatabase" >
+        <EntityTypeShape EntityType="AtomicRssDatabase.Channels" Width="1.5" PointX="4.875" PointY="0.625" Height="2.7494921874999996" />
+        <EntityTypeShape EntityType="AtomicRssDatabase.Users" Width="1.5" PointX="0.5" PointY="0.625" Height="1.59568359375" />
+        <EntityTypeShape EntityType="AtomicRssDatabase.Articles" Width="1.5" PointX="8.125" PointY="0.625" Height="2.364889322916667" />
+        <AssociationConnector Association="AtomicRssDatabase.ChannelsArticles">
+          <ConnectorPoint PointX="6.375" PointY="1.8074446614583335" />
+          <ConnectorPoint PointX="8.125" PointY="1.8074446614583335" />
+        </AssociationConnector>
+        <AssociationConnector Association="AtomicRssDatabase.UsersChannels">
+          <ConnectorPoint PointX="2" PointY="1.5189925130208335" />
+          <ConnectorPoint PointX="4.875" PointY="1.5189925130208335" />
+        </AssociationConnector>
+        <AssociationConnector Association="AtomicRssDatabase.UsersArticles">
+          <ConnectorPoint PointX="2" PointY="0.625" />
+          <ConnectorPoint PointX="2.375" PointY="0.25" />
+          <ConnectorPoint PointX="7.75" PointY="0.25" />
+          <ConnectorPoint PointX="8.125" PointY="0.625" />
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
