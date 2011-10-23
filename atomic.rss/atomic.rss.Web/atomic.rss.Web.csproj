@@ -60,6 +60,7 @@
   <ItemGroup>
     <Content Include="atomic.rss.sl4TestPage.aspx" />
     <Content Include="atomic.rss.sl4TestPage.html" />
+    <Content Include="ClientBin\atomic.rss.sl4.xap" />
     <Content Include="Silverlight.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -75,11 +76,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AtomicRssDatabase.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Mgr\ParserRSS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ClientBin\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EntityDeploy Include="BD\AtomicRssDatabase.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
