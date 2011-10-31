@@ -17,7 +17,6 @@ namespace atomic.rss.Web.Services
         protected override bool ValidateUser(string userName, string password)
         {
             BD.Users u = null;
-            Debug.WriteLine("ValidateUser ? " + userName);
             try
             {
                 using (BD.AtomicRssDatabaseContainer context = new BD.AtomicRssDatabaseContainer())

@@ -11,6 +11,8 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.ServiceModel.DomainServices.Client.ApplicationServices;
 
+
+
 namespace atomic.rss.sl4
 {
     public partial class App : Application

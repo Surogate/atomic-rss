@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="atomic.rss.Web.Services.RegisterService" CodeBehind="RegisterService.svc.cs" %>

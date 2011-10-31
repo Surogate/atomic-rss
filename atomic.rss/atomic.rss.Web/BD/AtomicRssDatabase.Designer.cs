@@ -20,7 +20,7 @@ using System.Runtime.Serialization;
 
 [assembly: EdmRelationshipAttribute("AtomicRssDatabase", "ChannelsArticles", "Channels", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(atomic.rss.Web.BD.Channels), "Articles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(atomic.rss.Web.BD.Articles))]
 [assembly: EdmRelationshipAttribute("AtomicRssDatabase", "UsersChannels", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(atomic.rss.Web.BD.Users), "Channels", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(atomic.rss.Web.BD.Channels))]
-[assembly: EdmRelationshipAttribute("AtomicRssDatabase", "UsersArticles", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(atomic.rss.Web.BD.Users), "Articles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(atomic.rss.Web.BD.Articles))]
+[assembly: EdmRelationshipAttribute("AtomicRssDatabase", "UsersArticles", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(atomic.rss.Web.BD.Users), "Articles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(atomic.rss.Web.BD.Articles))]
 
 #endregion
 
@@ -385,33 +385,17 @@ namespace atomic.rss.Web.BD
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("AtomicRssDatabase", "UsersArticles", "Users")]
-        public Users Users
+        public EntityCollection<Users> Users
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Users>("AtomicRssDatabase.UsersArticles", "Users").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Users>("AtomicRssDatabase.UsersArticles", "Users").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Users> UsersReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Users>("AtomicRssDatabase.UsersArticles", "Users");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Users>("AtomicRssDatabase.UsersArticles", "Users");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Users>("AtomicRssDatabase.UsersArticles", "Users", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Users>("AtomicRssDatabase.UsersArticles", "Users", value);
                 }
             }
         }

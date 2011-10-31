@@ -10,7 +10,10 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using atomic.rss.sl4.Utils;
 using System.ServiceModel.DomainServices.Client.ApplicationServices;
+using System.ServiceModel.DomainServices.Client;
 using System.Diagnostics;
+using atomic.rss.Web.Services;
+using atomic.rss.sl4.RegisterService;
 
 namespace atomic.rss.sl4.ViewModel
 {
@@ -109,7 +112,7 @@ namespace atomic.rss.sl4.ViewModel
             loginOp.Completed += new EventHandler(loginOp_Completed);
         }
 
-        void loginOp_Completed(object sender, EventArgs e)
+        private void loginOp_Completed(object sender, EventArgs e)
         {
             LoginOperation loginOp = (LoginOperation)sender;
             if (loginOp.HasError)
@@ -123,13 +126,38 @@ namespace atomic.rss.sl4.ViewModel
                 Debug.WriteLine("YOU FAIL !");
                 return;
             }
-            Debug.WriteLine("You're no logued !");
+            Debug.WriteLine("You're now logued !");
         }
 
         private void register()
         {
-
+            try
+            {
+                NewUser user = new NewUser();
+                user.Email = Email;
+                user.Password = Password;
+                user.ConfirmPassword = PasswordCheck;
+                RegisterServiceClient rsc = new RegisterServiceClient();
+                rsc.RegisterUserAsync(user);
+                rsc.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(rsc_RegisterUserCompleted);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
         }
+
+        void rsc_RegisterUserCompleted(object sender, RegisterUserCompletedEventArgs e)
+        {
+            RegisterResult result = (RegisterResult)e.Result;
+            if (result.HasError)
+            {
+                Debug.WriteLine(result.Message);
+            }
+            else
+                Debug.WriteLine(result.Message);
+        }
+
         #endregion
     }
 }

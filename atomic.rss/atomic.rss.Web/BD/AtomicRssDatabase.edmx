@@ -10,6 +10,7 @@
     <EntitySet Name="UsersSet" EntityType="AtomicRssDatabase.Store.UsersSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ArticlesSet" EntityType="AtomicRssDatabase.Store.ArticlesSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="UsersChannels" EntityType="AtomicRssDatabase.Store.UsersChannels" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ArticlesReaded" EntityType="AtomicRssDatabase.Store.UsersArticles" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ChannelsArticles" Association="AtomicRssDatabase.Store.ChannelsArticles">
       <End Role="Channels" EntitySet="ChannelsSet" />
       <End Role="Articles" EntitySet="ArticlesSet" />
@@ -22,9 +23,13 @@
       <End Role="Channels" EntitySet="ChannelsSet" />
       <End Role="UsersChannels" EntitySet="UsersChannels" />
     </AssociationSet>
-    <AssociationSet Name="ArticlesReaded" Association="AtomicRssDatabase.Store.UsersArticles">
+    <AssociationSet Name="FK_ArticlesReaded_Users" Association="AtomicRssDatabase.Store.FK_UsersArticles_Users">
       <End Role="Users" EntitySet="UsersSet" />
+      <End Role="UsersArticles" EntitySet="ArticlesReaded" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ArticlesReaded_Articles" Association="AtomicRssDatabase.Store.FK_UsersArticles_Articles">
       <End Role="Articles" EntitySet="ArticlesSet" />
+      <End Role="UsersArticles" EntitySet="ArticlesReaded" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="ChannelsSet">
@@ -59,7 +64,6 @@
     <Property Name="Date" Type="nvarchar(max)" Nullable="false" />
     <Property Name="GUID" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Channels_Id" Type="int" Nullable="false" />
-    <Property Name="Users_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="UsersChannels">
     <Key>
@@ -68,6 +72,14 @@
     </Key>
     <Property Name="Users_Id" Type="int" Nullable="false" />
     <Property Name="Channels_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UsersArticles">
+    <Key>
+      <PropertyRef Name="Users_Id" />
+      <PropertyRef Name="Articles_Id" />
+    </Key>
+    <Property Name="Users_Id" Type="int" Nullable="false" />
+    <Property Name="Articles_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="ChannelsArticles">
     <End Role="Channels" Type="AtomicRssDatabase.Store.ChannelsSet" Multiplicity="1" />
@@ -78,18 +90,6 @@
       </Principal>
       <Dependent Role="Articles">
         <PropertyRef Name="Channels_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UsersArticles">
-    <End Role="Users" Type="AtomicRssDatabase.Store.UsersSet" Multiplicity="1" />
-    <End Role="Articles" Type="AtomicRssDatabase.Store.ArticlesSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Users">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Articles">
-        <PropertyRef Name="Users_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -114,6 +114,30 @@
       </Principal>
       <Dependent Role="UsersChannels">
         <PropertyRef Name="Channels_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsersArticles_Users">
+    <End Role="Users" Type="AtomicRssDatabase.Store.UsersSet" Multiplicity="1" />
+    <End Role="UsersArticles" Type="AtomicRssDatabase.Store.UsersArticles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsersArticles">
+        <PropertyRef Name="Users_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsersArticles_Articles">
+    <End Role="UsersArticles" Type="AtomicRssDatabase.Store.UsersArticles" Multiplicity="*" />
+    <End Role="Articles" Type="AtomicRssDatabase.Store.ArticlesSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Articles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsersArticles">
+        <PropertyRef Name="Articles_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -185,7 +209,7 @@
           <End Type="AtomicRssDatabase.Channels" Role="Channels" Multiplicity="*" />
         </Association>
         <Association Name="UsersArticles">
-          <End Type="AtomicRssDatabase.Users" Role="Users" Multiplicity="1" />
+          <End Type="AtomicRssDatabase.Users" Role="Users" Multiplicity="*" />
           <End Type="AtomicRssDatabase.Articles" Role="Articles" Multiplicity="*" />
         </Association>
       </Schema>
@@ -245,12 +269,12 @@
         <ScalarProperty Name="Id" ColumnName="Channels_Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="ArticlesReaded" TypeName="AtomicRssDatabase.UsersArticles" StoreEntitySet="ArticlesSet">
+    <AssociationSetMapping Name="ArticlesReaded" TypeName="AtomicRssDatabase.UsersArticles" StoreEntitySet="ArticlesReaded">
       <EndProperty Name="Users">
         <ScalarProperty Name="Id" ColumnName="Users_Id" />
       </EndProperty>
       <EndProperty Name="Articles">
-        <ScalarProperty Name="Id" ColumnName="Id" />
+        <ScalarProperty Name="Id" ColumnName="Articles_Id" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>
