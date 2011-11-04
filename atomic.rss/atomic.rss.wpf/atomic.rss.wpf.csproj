@@ -37,7 +37,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,6 +58,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Service References\AuthentificationService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\BasicViewModel.cs" />
+    <Compile Include="Utils\CookieManagerBehaviorExtension.cs" />
+    <Compile Include="Utils\CookieManagerEndpointBehavior.cs" />
+    <Compile Include="Utils\CookieManagerMessageInspector.cs" />
+    <Compile Include="Utils\RelayCommand.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -86,11 +100,58 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Service References\AuthentificationService\atomic-rss-Web-Services-AuthentificationDomainService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AuthentificationService\atomic-rss-Web-Services-AuthentificationDomainService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AuthentificationService\atomic-rss-Web-Services-AuthentificationDomainService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AuthentificationService\atomic-rss-Web-Services-AuthentificationDomainService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AuthentificationService\atomic-rss-Web-Services-AuthentificationDomainService4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AuthentificationService\atomic.rss.wpf.AuthentificationService.ChangeSetEntry.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AuthentificationService\atomic.rss.wpf.AuthentificationService.QueryResultOfUser.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AuthentificationService\AuthentificationDomainService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\AuthentificationService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AuthentificationService\atomic-rss-Web-Services-AuthentificationDomainService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AuthentificationService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AuthentificationService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AuthentificationService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="View\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -85,11 +85,6 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\DataServices\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.datasvcmap</DependentUpon>
-    </Compile>
     <Compile Include="Service References\RegisterService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -111,10 +106,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AppManifest.xml" />
-    <None Include="Service References\DataServices\service.edmx" />
     <None Include="Service References\RegisterService\atomic.rss.sl4.RegisterService.RegisterResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\RegisterService\RegisterService.disco" />
+    <None Include="Service References\RegisterService\configuration91.svcinfo" />
+    <None Include="Service References\RegisterService\configuration.svcinfo" />
+    <None Include="Service References\RegisterService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="ServiceReferences.ClientConfig" />
     <None Include="Service References\RegisterService\RegisterService.wsdl" />
     <None Include="Service References\RegisterService\RegisterService.xsd">
       <SubType>Designer</SubType>
@@ -125,10 +127,9 @@
     <None Include="Service References\RegisterService\RegisterService2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\RegisterService\RegisterService5.xsd">
+    <None Include="Service References\RegisterService\RegisterService3.xsd">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="ServiceReferences.ClientConfig" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="View\" />
@@ -137,33 +138,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ServiceReferenceMetadataStorage Include="Service References\DataServices\">
-      <Type>datasvcmap</Type>
-    </ServiceReferenceMetadataStorage>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\DataServices\Reference.datasvcmap">
-      <Generator>DataServiceClientGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadataStorage Include="Service References\RegisterService\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\RegisterService\RegisterService.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\RegisterService\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\RegisterService\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\RegisterService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
