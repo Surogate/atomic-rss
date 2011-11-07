@@ -15,7 +15,10 @@ namespace atomic.rss.Web.Services
         {
             // TODO: set rules to indicate which entity sets and service operations are visible, updatable, etc.
             // Examples:
-            config.SetEntitySetAccessRule("*", EntitySetRights.AllRead); // TEST
+            //config.SetEntitySetAccessRule("*", EntitySetRights.AllRead);
+            config.SetEntitySetAccessRule("UsersSet", EntitySetRights.ReadSingle);
+            config.SetEntitySetAccessRule("ChannelsSet", EntitySetRights.AllRead | EntitySetRights.AllWrite);
+            config.SetEntitySetAccessRule("ArticlesSet", EntitySetRights.AllRead | EntitySetRights.AllWrite);
             // config.SetServiceOperationAccessRule("MyServiceOperation", ServiceOperationRights.All);
             config.DataServiceBehavior.MaxProtocolVersion = DataServiceProtocolVersion.V2;
         }
