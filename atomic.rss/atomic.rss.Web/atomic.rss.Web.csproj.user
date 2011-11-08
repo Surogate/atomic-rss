@@ -4,7 +4,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <StartPageUrl>atomic.rss.sl4TestPage.aspx</StartPageUrl>
+          <StartPageUrl>atomic.rss.sl4.navigableTestPage.aspx</StartPageUrl>
           <StartAction>SpecificPage</StartAction>
           <AspNetDebugging>True</AspNetDebugging>
           <SilverlightDebugging>True</SilverlightDebugging>
@@ -22,6 +22,7 @@
           <AlwaysStartWebServerOnDebug>True</AlwaysStartWebServerOnDebug>
           <ProjectOutputReferences>
             <Ref Project="{2859310A-7376-4738-89FC-CCDB63BC35DE}" Folder="ClientBin">atomic.rss.sl4.xap</Ref>
+            <Ref Project="{1558CBB1-2B0D-410B-A065-FB8994159306}" Folder="ClientBin">atomic.rss.sl4.navigable.xap</Ref>
           </ProjectOutputReferences>
         </WebProjectProperties>
       </FlavorProperties>
