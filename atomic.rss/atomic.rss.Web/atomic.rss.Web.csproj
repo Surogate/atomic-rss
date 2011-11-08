@@ -71,6 +71,7 @@
     <Content Include="atomic.rss.sl4TestPage.aspx" />
     <Content Include="atomic.rss.sl4TestPage.html" />
     <Content Include="BD\AtomicRssDatabase.edmx.sql" />
+    <Content Include="ClientBin\atomic.rss.sl4.navigable.xap" />
     <Content Include="ClientBin\atomic.rss.sl4.xap" />
     <Content Include="Services\AtomicRssDataService.svc" />
     <Content Include="Services\RegisterService.svc" />
