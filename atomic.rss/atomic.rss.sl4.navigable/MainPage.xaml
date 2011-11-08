@@ -1,0 +1,72 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation" 
+    xmlns:uriMapper="clr-namespace:System.Windows.Navigation;assembly=System.Windows.Controls.Navigation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:atomic_rss_sl4_navigable_ViewModel="clr-namespace:atomic.rss.sl4.navigable.ViewModel" x:Name="userControl"
+    x:Class="atomic.rss.sl4.navigable.MainPage" 
+    mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="480">
+	<UserControl.DataContext>
+		<atomic_rss_sl4_navigable_ViewModel:MainViewModel/>
+	</UserControl.DataContext>
+
+    <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutRootGridStyle}">
+
+        <Border x:Name="ContentBorder" Style="{StaticResource ContentBorderStyle}">
+
+            <navigation:Frame x:Name="ContentFrame" Style="{StaticResource ContentFrameStyle}" 
+                              Source="{Binding CurrentPage, Mode=TwoWay}" Navigated="ContentFrame_Navigated" NavigationFailed="ContentFrame_NavigationFailed">
+                <navigation:Frame.UriMapper>
+                  <uriMapper:UriMapper>
+                    <uriMapper:UriMapping Uri="" MappedUri="/Views/LoginAndRegister.xaml"/>
+                    <uriMapper:UriMapping Uri="/{pageName}" MappedUri="/Views/{pageName}.xaml"/>
+                  </uriMapper:UriMapper>
+                </navigation:Frame.UriMapper>
+            </navigation:Frame>
+        </Border>
+
+        <Grid x:Name="NavigationGrid" Style="{StaticResource NavigationGridStyle}">
+
+            <Border x:Name="BrandingBorder" Style="{StaticResource BrandingBorderStyle}">
+                <StackPanel x:Name="BrandingStackPanel" Style="{StaticResource BrandingStackPanelStyle}">
+
+                    <ContentControl Style="{StaticResource LogoIcon}"/>
+                    <TextBlock x:Name="ApplicationNameTextBlock" Style="{StaticResource ApplicationNameStyle}" 
+                               Text="Atomic Rss"/>
+
+                </StackPanel>
+            </Border>
+
+            <Border x:Name="LinksBorder" Style="{StaticResource LinksBorderStyle}">
+                <StackPanel x:Name="LinksStackPanel" Style="{StaticResource LinksStackPanelStyle}">
+
+                    <HyperlinkButton x:Name="LoginAndRegister" Style="{StaticResource LinkStyle}" 
+                                     NavigateUri="/LoginAndRegister" TargetName="ContentFrame" Content="Login And Register" Visibility="{Binding LoginRegisterPageVisibility}"/>
+									 
+					<HyperlinkButton x:Name="Home" Style="{StaticResource LinkStyle}" 
+                                     NavigateUri="/Home" TargetName="ContentFrame" Content="Home" Visibility="{Binding UserPageVisibility}" />
+									 
+					<HyperlinkButton x:Name="AdminPanel" Style="{StaticResource LinkStyle}" 
+                                     NavigateUri="/AdminPanel" TargetName="ContentFrame" Content="Amdin Panel" Visibility="{Binding AdminPageVisibility}"/>
+									 
+                    <Rectangle x:Name="Divider1" Style="{StaticResource DividerStyle}" Visibility="{Binding LogoutVisibility}"/>
+					
+					<HyperlinkButton x:Name="Logout" Style="{StaticResource LinkStyle}" 
+                                     NavigateUri="/LoginAndRegister" TargetName="ContentFrame" Content="Logout" Visibility="{Binding LogoutVisibility}" Command="{Binding Logout}" />
+					
+					<Rectangle x:Name="Divider2" Style="{StaticResource DividerStyle}"/>
+
+					<HyperlinkButton x:Name="About" Style="{StaticResource LinkStyle}" 
+                                     NavigateUri="/About" TargetName="ContentFrame" Content="About"/>
+
+                </StackPanel>
+            </Border>
+
+        </Grid>
+
+    </Grid>
+
+</UserControl>

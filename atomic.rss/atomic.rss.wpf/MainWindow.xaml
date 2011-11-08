@@ -1,0 +1,18 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:atomic_rss_wpf_ViewModel="clr-namespace:atomic.rss.wpf.ViewModel" x:Class="atomic.rss.wpf.MainWindow"
+        Title="MainWindow" Height="350" Width="525">
+	<Window.DataContext>
+		<atomic_rss_wpf_ViewModel:MainViewModel/>
+	</Window.DataContext>
+    <Grid>
+    	<Label Content="Login" HorizontalAlignment="Left" Height="29" Margin="24,18,0,0" VerticalAlignment="Top" Width="61"/>
+    	<Label Content="Password" HorizontalAlignment="Left" Height="33" Margin="24,56,0,0" VerticalAlignment="Top" Width="61"/>
+    	
+    	<TextBox Height="29" Margin="89,18,248,0" TextWrapping="Wrap" Text="{Binding Login, Mode=TwoWay}" VerticalAlignment="Top"/>
+    	<Button Content="Connect" HorizontalAlignment="Left" Height="27" Margin="24,117,0,0" VerticalAlignment="Top" Width="105" Command="{Binding Connect}"/>
+    	<TextBox Height="33" Margin="89,56,248,0" TextWrapping="Wrap" Text="{Binding Password, Mode=TwoWay}" VerticalAlignment="Top" Background="White"/>
+        
+    </Grid>
+</Window>
