@@ -172,8 +172,8 @@
           <Property Type="String" Name="Link" Nullable="false" />
           <Property Type="String" Name="Language" Nullable="false" />
           <Property Type="String" Name="Author" Nullable="false" />
-          <Property Type="String" Name="UpdateFrequency" Nullable="false" />
-          <Property Type="String" Name="Date" Nullable="false" />
+          <Property Type="Int32" Name="UpdateFrequency" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
           <NavigationProperty Name="Articles" Relationship="AtomicRssDatabase.ChannelsArticles" FromRole="Channels" ToRole="Articles" />
           <NavigationProperty Name="Users" Relationship="AtomicRssDatabase.UsersChannels" FromRole="Channels" ToRole="Users" />
         </EntityType>
@@ -186,6 +186,7 @@
           <Property Type="String" Name="Passwords" Nullable="false" />
           <NavigationProperty Name="Channels" Relationship="AtomicRssDatabase.UsersChannels" FromRole="Users" ToRole="Channels" />
           <NavigationProperty Name="Articles" Relationship="AtomicRssDatabase.UsersArticles" FromRole="Users" ToRole="Articles" />
+          <Property Type="Boolean" Name="IsAdmin" Nullable="false" />
         </EntityType>
         <EntityType Name="Articles">
           <Key>
@@ -195,7 +196,7 @@
           <Property Type="String" Name="Title" Nullable="false" />
           <Property Type="String" Name="Link" Nullable="false" />
           <Property Type="String" Name="Description" Nullable="false" />
-          <Property Type="String" Name="Date" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
           <Property Type="String" Name="GUID" Nullable="false" />
           <NavigationProperty Name="Channels" Relationship="AtomicRssDatabase.ChannelsArticles" FromRole="Articles" ToRole="Channels" />
           <NavigationProperty Name="Users" Relationship="AtomicRssDatabase.UsersArticles" FromRole="Articles" ToRole="Users" />
@@ -297,15 +298,15 @@
     <edmx:Diagrams>
       <Diagram Name="AtomicRssDatabase" >
         <EntityTypeShape EntityType="AtomicRssDatabase.Channels" Width="1.5" PointX="4.875" PointY="0.625" Height="2.7494921874999996" />
-        <EntityTypeShape EntityType="AtomicRssDatabase.Users" Width="1.5" PointX="0.5" PointY="0.625" Height="1.59568359375" />
+        <EntityTypeShape EntityType="AtomicRssDatabase.Users" Width="1.5" PointX="0.5" PointY="0.625" Height="2.172587890625" />
         <EntityTypeShape EntityType="AtomicRssDatabase.Articles" Width="1.5" PointX="8.125" PointY="0.625" Height="2.364889322916667" />
         <AssociationConnector Association="AtomicRssDatabase.ChannelsArticles">
           <ConnectorPoint PointX="6.375" PointY="1.8074446614583335" />
           <ConnectorPoint PointX="8.125" PointY="1.8074446614583335" />
         </AssociationConnector>
         <AssociationConnector Association="AtomicRssDatabase.UsersChannels">
-          <ConnectorPoint PointX="2" PointY="1.5189925130208335" />
-          <ConnectorPoint PointX="4.875" PointY="1.5189925130208335" />
+          <ConnectorPoint PointX="2" PointY="1.7112939453124998" />
+          <ConnectorPoint PointX="4.875" PointY="1.7112939453124998" />
         </AssociationConnector>
         <AssociationConnector Association="AtomicRssDatabase.UsersArticles">
           <ConnectorPoint PointX="2" PointY="0.625" />

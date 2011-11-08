@@ -174,7 +174,7 @@ namespace atomic.rss.Web.BD
         /// <param name="description">Initial value of the Description property.</param>
         /// <param name="date">Initial value of the Date property.</param>
         /// <param name="gUID">Initial value of the GUID property.</param>
-        public static Articles CreateArticles(global::System.Int32 id, global::System.String title, global::System.String link, global::System.String description, global::System.String date, global::System.String gUID)
+        public static Articles CreateArticles(global::System.Int32 id, global::System.String title, global::System.String link, global::System.String description, global::System.DateTime date, global::System.String gUID)
         {
             Articles articles = new Articles();
             articles.Id = id;
@@ -293,7 +293,7 @@ namespace atomic.rss.Web.BD
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String Date
+        public global::System.DateTime Date
         {
             get
             {
@@ -303,13 +303,13 @@ namespace atomic.rss.Web.BD
             {
                 OnDateChanging(value);
                 ReportPropertyChanging("Date");
-                _Date = StructuralObject.SetValidValue(value, false);
+                _Date = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Date");
                 OnDateChanged();
             }
         }
-        private global::System.String _Date;
-        partial void OnDateChanging(global::System.String value);
+        private global::System.DateTime _Date;
+        partial void OnDateChanging(global::System.DateTime value);
         partial void OnDateChanged();
     
         /// <summary>
@@ -424,7 +424,7 @@ namespace atomic.rss.Web.BD
         /// <param name="author">Initial value of the Author property.</param>
         /// <param name="updateFrequency">Initial value of the UpdateFrequency property.</param>
         /// <param name="date">Initial value of the Date property.</param>
-        public static Channels CreateChannels(global::System.Int32 id, global::System.String title, global::System.String description, global::System.String link, global::System.String language, global::System.String author, global::System.String updateFrequency, global::System.String date)
+        public static Channels CreateChannels(global::System.Int32 id, global::System.String title, global::System.String description, global::System.String link, global::System.String language, global::System.String author, global::System.Int32 updateFrequency, global::System.DateTime date)
         {
             Channels channels = new Channels();
             channels.Id = id;
@@ -593,7 +593,7 @@ namespace atomic.rss.Web.BD
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String UpdateFrequency
+        public global::System.Int32 UpdateFrequency
         {
             get
             {
@@ -603,13 +603,13 @@ namespace atomic.rss.Web.BD
             {
                 OnUpdateFrequencyChanging(value);
                 ReportPropertyChanging("UpdateFrequency");
-                _UpdateFrequency = StructuralObject.SetValidValue(value, false);
+                _UpdateFrequency = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("UpdateFrequency");
                 OnUpdateFrequencyChanged();
             }
         }
-        private global::System.String _UpdateFrequency;
-        partial void OnUpdateFrequencyChanging(global::System.String value);
+        private global::System.Int32 _UpdateFrequency;
+        partial void OnUpdateFrequencyChanging(global::System.Int32 value);
         partial void OnUpdateFrequencyChanged();
     
         /// <summary>
@@ -617,7 +617,7 @@ namespace atomic.rss.Web.BD
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String Date
+        public global::System.DateTime Date
         {
             get
             {
@@ -627,13 +627,13 @@ namespace atomic.rss.Web.BD
             {
                 OnDateChanging(value);
                 ReportPropertyChanging("Date");
-                _Date = StructuralObject.SetValidValue(value, false);
+                _Date = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Date");
                 OnDateChanged();
             }
         }
-        private global::System.String _Date;
-        partial void OnDateChanging(global::System.String value);
+        private global::System.DateTime _Date;
+        partial void OnDateChanging(global::System.DateTime value);
         partial void OnDateChanged();
 
         #endregion
@@ -703,12 +703,14 @@ namespace atomic.rss.Web.BD
         /// <param name="id">Initial value of the Id property.</param>
         /// <param name="email">Initial value of the Email property.</param>
         /// <param name="passwords">Initial value of the Passwords property.</param>
-        public static Users CreateUsers(global::System.Int32 id, global::System.String email, global::System.String passwords)
+        /// <param name="isAdmin">Initial value of the IsAdmin property.</param>
+        public static Users CreateUsers(global::System.Int32 id, global::System.String email, global::System.String passwords, global::System.Boolean isAdmin)
         {
             Users users = new Users();
             users.Id = id;
             users.Email = email;
             users.Passwords = passwords;
+            users.IsAdmin = isAdmin;
             return users;
         }
 
@@ -789,6 +791,30 @@ namespace atomic.rss.Web.BD
         private global::System.String _Passwords;
         partial void OnPasswordsChanging(global::System.String value);
         partial void OnPasswordsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsAdmin
+        {
+            get
+            {
+                return _IsAdmin;
+            }
+            set
+            {
+                OnIsAdminChanging(value);
+                ReportPropertyChanging("IsAdmin");
+                _IsAdmin = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsAdmin");
+                OnIsAdminChanged();
+            }
+        }
+        private global::System.Boolean _IsAdmin;
+        partial void OnIsAdminChanging(global::System.Boolean value);
+        partial void OnIsAdminChanged();
 
         #endregion
     
