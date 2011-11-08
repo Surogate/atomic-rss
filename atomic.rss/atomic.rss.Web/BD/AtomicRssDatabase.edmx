@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AtomicRssDatabase.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="AtomicRssDatabaseStoreContainer">
+    <EntitySet Name="ChannelsSet" EntityType="AtomicRssDatabase.Store.ChannelsSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UsersSet" EntityType="AtomicRssDatabase.Store.UsersSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ArticlesSet" EntityType="AtomicRssDatabase.Store.ArticlesSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UsersChannels" EntityType="AtomicRssDatabase.Store.UsersChannels" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ArticlesReaded" EntityType="AtomicRssDatabase.Store.UsersArticles" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ChannelsArticles" Association="AtomicRssDatabase.Store.ChannelsArticles">
+      <End Role="Channels" EntitySet="ChannelsSet" />
+      <End Role="Articles" EntitySet="ArticlesSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsersChannels_Users" Association="AtomicRssDatabase.Store.FK_UsersChannels_Users">
+      <End Role="Users" EntitySet="UsersSet" />
+      <End Role="UsersChannels" EntitySet="UsersChannels" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsersChannels_Channels" Association="AtomicRssDatabase.Store.FK_UsersChannels_Channels">
+      <End Role="Channels" EntitySet="ChannelsSet" />
+      <End Role="UsersChannels" EntitySet="UsersChannels" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ArticlesReaded_Users" Association="AtomicRssDatabase.Store.FK_UsersArticles_Users">
+      <End Role="Users" EntitySet="UsersSet" />
+      <End Role="UsersArticles" EntitySet="ArticlesReaded" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ArticlesReaded_Articles" Association="AtomicRssDatabase.Store.FK_UsersArticles_Articles">
+      <End Role="Articles" EntitySet="ArticlesSet" />
+      <End Role="UsersArticles" EntitySet="ArticlesReaded" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ChannelsSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Link" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Language" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Author" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UpdateFrequency" Type="int" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UsersSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Passwords" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsAdmin" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ArticlesSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Link" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="GUID" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Channels_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UsersChannels">
+    <Key>
+      <PropertyRef Name="Users_Id" />
+      <PropertyRef Name="Channels_Id" />
+    </Key>
+    <Property Name="Users_Id" Type="int" Nullable="false" />
+    <Property Name="Channels_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UsersArticles">
+    <Key>
+      <PropertyRef Name="Users_Id" />
+      <PropertyRef Name="Articles_Id" />
+    </Key>
+    <Property Name="Users_Id" Type="int" Nullable="false" />
+    <Property Name="Articles_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="ChannelsArticles">
+    <End Role="Channels" Type="AtomicRssDatabase.Store.ChannelsSet" Multiplicity="1" />
+    <End Role="Articles" Type="AtomicRssDatabase.Store.ArticlesSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Channels">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Articles">
+        <PropertyRef Name="Channels_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsersChannels_Users">
+    <End Role="Users" Type="AtomicRssDatabase.Store.UsersSet" Multiplicity="1" />
+    <End Role="UsersChannels" Type="AtomicRssDatabase.Store.UsersChannels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsersChannels">
+        <PropertyRef Name="Users_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsersChannels_Channels">
+    <End Role="UsersChannels" Type="AtomicRssDatabase.Store.UsersChannels" Multiplicity="*" />
+    <End Role="Channels" Type="AtomicRssDatabase.Store.ChannelsSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Channels">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsersChannels">
+        <PropertyRef Name="Channels_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsersArticles_Users">
+    <End Role="Users" Type="AtomicRssDatabase.Store.UsersSet" Multiplicity="1" />
+    <End Role="UsersArticles" Type="AtomicRssDatabase.Store.UsersArticles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsersArticles">
+        <PropertyRef Name="Users_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsersArticles_Articles">
+    <End Role="UsersArticles" Type="AtomicRssDatabase.Store.UsersArticles" Multiplicity="*" />
+    <End Role="Articles" Type="AtomicRssDatabase.Store.ArticlesSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Articles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsersArticles">
+        <PropertyRef Name="Articles_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="AtomicRssDatabase" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="AtomicRssDatabaseContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ChannelsSet" EntityType="AtomicRssDatabase.Channels" />
+          <EntitySet Name="UsersSet" EntityType="AtomicRssDatabase.Users" />
+          <EntitySet Name="ArticlesSet" EntityType="AtomicRssDatabase.Articles" />
+          <AssociationSet Name="ChannelsArticles" Association="AtomicRssDatabase.ChannelsArticles">
+            <End Role="Channels" EntitySet="ChannelsSet" />
+            <End Role="Articles" EntitySet="ArticlesSet" />
+          </AssociationSet>
+          <AssociationSet Name="UsersChannels" Association="AtomicRssDatabase.UsersChannels">
+            <End Role="Users" EntitySet="UsersSet" />
+            <End Role="Channels" EntitySet="ChannelsSet" />
+          </AssociationSet>
+          <AssociationSet Name="ArticlesReaded" Association="AtomicRssDatabase.UsersArticles">
+            <End Role="Users" EntitySet="UsersSet" />
+            <End Role="Articles" EntitySet="ArticlesSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Channels">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" />
+          <Property Type="String" Name="Link" Nullable="false" />
+          <Property Type="String" Name="Language" Nullable="false" />
+          <Property Type="String" Name="Author" Nullable="false" />
+          <Property Type="Int32" Name="UpdateFrequency" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <NavigationProperty Name="Articles" Relationship="AtomicRssDatabase.ChannelsArticles" FromRole="Channels" ToRole="Articles" />
+          <NavigationProperty Name="Users" Relationship="AtomicRssDatabase.UsersChannels" FromRole="Channels" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Email" Nullable="false" />
+          <Property Type="String" Name="Passwords" Nullable="false" />
+          <NavigationProperty Name="Channels" Relationship="AtomicRssDatabase.UsersChannels" FromRole="Users" ToRole="Channels" />
+          <NavigationProperty Name="Articles" Relationship="AtomicRssDatabase.UsersArticles" FromRole="Users" ToRole="Articles" />
+          <Property Type="Boolean" Name="IsAdmin" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Articles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" Nullable="false" />
+          <Property Type="String" Name="Link" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="String" Name="GUID" Nullable="false" />
+          <NavigationProperty Name="Channels" Relationship="AtomicRssDatabase.ChannelsArticles" FromRole="Articles" ToRole="Channels" />
+          <NavigationProperty Name="Users" Relationship="AtomicRssDatabase.UsersArticles" FromRole="Articles" ToRole="Users" />
+        </EntityType>
+        <Association Name="ChannelsArticles">
+          <End Type="AtomicRssDatabase.Channels" Role="Channels" Multiplicity="1" />
+          <End Type="AtomicRssDatabase.Articles" Role="Articles" Multiplicity="*" />
+        </Association>
+        <Association Name="UsersChannels">
+          <End Type="AtomicRssDatabase.Users" Role="Users" Multiplicity="*" />
+          <End Type="AtomicRssDatabase.Channels" Role="Channels" Multiplicity="*" />
+        </Association>
+        <Association Name="UsersArticles">
+          <End Type="AtomicRssDatabase.Users" Role="Users" Multiplicity="*" />
+          <End Type="AtomicRssDatabase.Articles" Role="Articles" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AtomicRssDatabaseStoreContainer" CdmEntityContainer="AtomicRssDatabaseContainer">
+    <EntitySetMapping Name="ChannelsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(AtomicRssDatabase.Channels)">
+        <MappingFragment StoreEntitySet="ChannelsSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Link" ColumnName="Link" />
+          <ScalarProperty Name="Language" ColumnName="Language" />
+          <ScalarProperty Name="Author" ColumnName="Author" />
+          <ScalarProperty Name="UpdateFrequency" ColumnName="UpdateFrequency" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UsersSet">
+      <EntityTypeMapping TypeName="IsTypeOf(AtomicRssDatabase.Users)">
+        <MappingFragment StoreEntitySet="UsersSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Passwords" ColumnName="Passwords" />
+          <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ArticlesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(AtomicRssDatabase.Articles)">
+        <MappingFragment StoreEntitySet="ArticlesSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Link" ColumnName="Link" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="GUID" ColumnName="GUID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ChannelsArticles" TypeName="AtomicRssDatabase.ChannelsArticles" StoreEntitySet="ArticlesSet">
+      <EndProperty Name="Channels">
+        <ScalarProperty Name="Id" ColumnName="Channels_Id" />
+      </EndProperty>
+      <EndProperty Name="Articles">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UsersChannels" TypeName="AtomicRssDatabase.UsersChannels" StoreEntitySet="UsersChannels">
+      <EndProperty Name="Users">
+        <ScalarProperty Name="Id" ColumnName="Users_Id" />
+      </EndProperty>
+      <EndProperty Name="Channels">
+        <ScalarProperty Name="Id" ColumnName="Channels_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ArticlesReaded" TypeName="AtomicRssDatabase.UsersArticles" StoreEntitySet="ArticlesReaded">
+      <EndProperty Name="Users">
+        <ScalarProperty Name="Id" ColumnName="Users_Id" />
+      </EndProperty>
+      <EndProperty Name="Articles">
+        <ScalarProperty Name="Id" ColumnName="Articles_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="AtomicRssDatabase" >
+        <EntityTypeShape EntityType="AtomicRssDatabase.Channels" Width="1.5" PointX="4.875" PointY="0.625" Height="2.7494921874999996" />
+        <EntityTypeShape EntityType="AtomicRssDatabase.Users" Width="1.5" PointX="0.5" PointY="0.625" Height="2.172587890625" />
+        <EntityTypeShape EntityType="AtomicRssDatabase.Articles" Width="1.5" PointX="8.125" PointY="0.625" Height="2.364889322916667" />
+        <AssociationConnector Association="AtomicRssDatabase.ChannelsArticles">
+          <ConnectorPoint PointX="6.375" PointY="1.8074446614583335" />
+          <ConnectorPoint PointX="8.125" PointY="1.8074446614583335" />
+        </AssociationConnector>
+        <AssociationConnector Association="AtomicRssDatabase.UsersChannels">
+          <ConnectorPoint PointX="2" PointY="1.7112939453124998" />
+          <ConnectorPoint PointX="4.875" PointY="1.7112939453124998" />
+        </AssociationConnector>
+        <AssociationConnector Association="AtomicRssDatabase.UsersArticles">
+          <ConnectorPoint PointX="2" PointY="0.625" />
+          <ConnectorPoint PointX="2.375" PointY="0.25" />
+          <ConnectorPoint PointX="7.75" PointY="0.25" />
+          <ConnectorPoint PointX="8.125" PointY="0.625" />
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

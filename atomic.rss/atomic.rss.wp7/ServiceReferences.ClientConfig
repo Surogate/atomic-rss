@@ -1,0 +1,24 @@
+﻿<configuration>
+    <system.serviceModel>
+        <bindings>
+          <basicHttpBinding>
+            <binding name="BasicHttpBinding_AuthenticationServiceSoap" maxBufferSize="2147483647"
+                     enableHttpCookieContainer="true"
+                maxReceivedMessageSize="2147483647">
+              <security mode="None" />
+            </binding>
+            <binding name="BasicHttpBinding_AuthentificationDomainServiceSoap" maxBufferSize="2147483647"
+                     enableHttpCookieContainer="true"
+                maxReceivedMessageSize="2147483647">
+              <security mode="None" />
+            </binding>
+          </basicHttpBinding>
+        </bindings>
+        <client>
+            <endpoint address="http://localhost:48655/Services/atomic-rss-Web-Services-AuthentificationDomainService.svc/Soap"
+                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_AuthentificationDomainServiceSoap"
+                contract="AuthentificationService.AuthentificationDomainServiceSoap"
+                name="BasicHttpBinding_AuthentificationDomainServiceSoap" />
+        </client>
+    </system.serviceModel>
+</configuration>

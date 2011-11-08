@@ -1,0 +1,7 @@
+syntax: glob
+*/obj/*
+*/Bin/*
+*bin*
+*.csproj.user
+*Generated_Code*
+*.xap
