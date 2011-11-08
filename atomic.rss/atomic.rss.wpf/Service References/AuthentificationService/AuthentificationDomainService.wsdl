@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="AuthentificationDomainService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:48655/Services/atomic-rss-Web-Services-AuthentificationDomainService.svc?xsd=xsd3" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:48655/Services/atomic-rss-Web-Services-AuthentificationDomainService.svc?xsd=xsd4" namespace="DomainServices" />
+      <xsd:import schemaLocation="http://localhost:48655/Services/atomic-rss-Web-Services-AuthentificationDomainService.svc?xsd=xsd0" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:48655/Services/atomic-rss-Web-Services-AuthentificationDomainService.svc?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/atomic.rss.Web.Services" />
+      <xsd:import schemaLocation="http://localhost:48655/Services/atomic-rss-Web-Services-AuthentificationDomainService.svc?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="AuthentificationDomainServiceSoap_Login_InputMessage">
+    <wsdl:part name="parameters" element="tns:Login" />
+  </wsdl:message>
+  <wsdl:message name="AuthentificationDomainServiceSoap_Login_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="AuthentificationDomainServiceSoap_Login_DomainServiceFault_FaultMessage">
+    <wsdl:part xmlns:q1="DomainServices" name="detail" element="q1:DomainServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="AuthentificationDomainServiceSoap_Logout_InputMessage">
+    <wsdl:part name="parameters" element="tns:Logout" />
+  </wsdl:message>
+  <wsdl:message name="AuthentificationDomainServiceSoap_Logout_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LogoutResponse" />
+  </wsdl:message>
+  <wsdl:message name="AuthentificationDomainServiceSoap_Logout_DomainServiceFault_FaultMessage">
+    <wsdl:part xmlns:q2="DomainServices" name="detail" element="q2:DomainServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="AuthentificationDomainServiceSoap_GetUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUser" />
+  </wsdl:message>
+  <wsdl:message name="AuthentificationDomainServiceSoap_GetUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="AuthentificationDomainServiceSoap_GetUser_DomainServiceFault_FaultMessage">
+    <wsdl:part xmlns:q3="DomainServices" name="detail" element="q3:DomainServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="AuthentificationDomainServiceSoap_SubmitChanges_InputMessage">
+    <wsdl:part name="parameters" element="tns:SubmitChanges" />
+  </wsdl:message>
+  <wsdl:message name="AuthentificationDomainServiceSoap_SubmitChanges_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubmitChangesResponse" />
+  </wsdl:message>
+  <wsdl:message name="AuthentificationDomainServiceSoap_SubmitChanges_DomainServiceFault_FaultMessage">
+    <wsdl:part xmlns:q4="DomainServices" name="detail" element="q4:DomainServiceFault" />
+  </wsdl:message>
+  <wsdl:portType name="AuthentificationDomainServiceSoap">
+    <wsdl:operation name="Login">
+      <wsdl:input wsaw:Action="http://tempuri.org/AuthentificationDomainServiceSoap/Login" message="tns:AuthentificationDomainServiceSoap_Login_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/AuthentificationDomainServiceSoap/LoginResponse" message="tns:AuthentificationDomainServiceSoap_Login_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/AuthentificationDomainServiceSoap/LoginDomainServiceFault" name="DomainServiceFault" message="tns:AuthentificationDomainServiceSoap_Login_DomainServiceFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Logout">
+      <wsdl:input wsaw:Action="http://tempuri.org/AuthentificationDomainServiceSoap/Logout" message="tns:AuthentificationDomainServiceSoap_Logout_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/AuthentificationDomainServiceSoap/LogoutResponse" message="tns:AuthentificationDomainServiceSoap_Logout_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/AuthentificationDomainServiceSoap/LogoutDomainServiceFault" name="DomainServiceFault" message="tns:AuthentificationDomainServiceSoap_Logout_DomainServiceFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/AuthentificationDomainServiceSoap/GetUser" message="tns:AuthentificationDomainServiceSoap_GetUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/AuthentificationDomainServiceSoap/GetUserResponse" message="tns:AuthentificationDomainServiceSoap_GetUser_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/AuthentificationDomainServiceSoap/GetUserDomainServiceFault" name="DomainServiceFault" message="tns:AuthentificationDomainServiceSoap_GetUser_DomainServiceFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SubmitChanges">
+      <wsdl:input wsaw:Action="http://tempuri.org/AuthentificationDomainServiceSoap/SubmitChanges" message="tns:AuthentificationDomainServiceSoap_SubmitChanges_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/AuthentificationDomainServiceSoap/SubmitChangesResponse" message="tns:AuthentificationDomainServiceSoap_SubmitChanges_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/AuthentificationDomainServiceSoap/SubmitChangesDomainServiceFault" name="DomainServiceFault" message="tns:AuthentificationDomainServiceSoap_SubmitChanges_DomainServiceFault_FaultMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_AuthentificationDomainServiceSoap" type="tns:AuthentificationDomainServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Login">
+      <soap:operation soapAction="http://tempuri.org/AuthentificationDomainServiceSoap/Login" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="DomainServiceFault">
+        <soap:fault use="literal" name="DomainServiceFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="Logout">
+      <soap:operation soapAction="http://tempuri.org/AuthentificationDomainServiceSoap/Logout" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="DomainServiceFault">
+        <soap:fault use="literal" name="DomainServiceFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetUser">
+      <soap:operation soapAction="http://tempuri.org/AuthentificationDomainServiceSoap/GetUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="DomainServiceFault">
+        <soap:fault use="literal" name="DomainServiceFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitChanges">
+      <soap:operation soapAction="http://tempuri.org/AuthentificationDomainServiceSoap/SubmitChanges" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="DomainServiceFault">
+        <soap:fault use="literal" name="DomainServiceFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AuthentificationDomainService">
+    <wsdl:port name="BasicHttpBinding_AuthentificationDomainServiceSoap" binding="tns:BasicHttpBinding_AuthentificationDomainServiceSoap">
+      <soap:address location="http://localhost:48655/Services/atomic-rss-Web-Services-AuthentificationDomainService.svc/Soap" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
