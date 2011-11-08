@@ -42,8 +42,8 @@
     <Property Name="Link" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Language" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Author" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="UpdateFrequency" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Date" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UpdateFrequency" Type="int" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="UsersSet">
     <Key>
@@ -52,6 +52,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Passwords" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsAdmin" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="ArticlesSet">
     <Key>
@@ -61,7 +62,7 @@
     <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Link" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Date" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="GUID" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Channels_Id" Type="int" Nullable="false" />
   </EntityType>
@@ -239,6 +240,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Passwords" ColumnName="Passwords" />
+          <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
