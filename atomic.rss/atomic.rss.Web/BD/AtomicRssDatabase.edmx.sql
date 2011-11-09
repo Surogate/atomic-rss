@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 11/08/2011 23:17:18
--- Generated from EDMX file: C:\Users\calimeraw\Documents\dev\atomic-rss\atomic.rss\atomic.rss.Web\BD\AtomicRssDatabase.edmx
+-- Date Created: 11/08/2011 14:16:36
+-- Generated from EDMX file: E:\Document\atomic-rss\atomic.rss\atomic.rss.Web\BD\AtomicRssDatabase.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -87,7 +87,7 @@ CREATE TABLE [dbo].[ArticlesSet] (
     [Description] nvarchar(max)  NOT NULL,
     [Date] datetime  NOT NULL,
     [GUID] nvarchar(max)  NOT NULL,
-    [Channels_ID] int  NOT NULL
+    [Channels_Id] int  NOT NULL
 );
 GO
 
@@ -143,18 +143,18 @@ GO
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [Channels_ID] in table 'ArticlesSet'
+-- Creating foreign key on [Channels_Id] in table 'ArticlesSet'
 ALTER TABLE [dbo].[ArticlesSet]
 ADD CONSTRAINT [FK_ChannelsArticles]
-    FOREIGN KEY ([Channels_ID])
+    FOREIGN KEY ([Channels_Id])
     REFERENCES [dbo].[ChannelsSet]
         ([Id])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_ChannelsArticles'
 CREATE INDEX [IX_FK_ChannelsArticles]
 ON [dbo].[ArticlesSet]
-    ([Channels_ID]);
+    ([Channels_Id]);
 GO
 
 -- Creating foreign key on [Users_Id] in table 'UsersChannels'
