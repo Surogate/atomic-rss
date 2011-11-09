@@ -1,7 +1,8 @@
 syntax: glob
 */obj/*
 */Bin/*
-*bin*
+*bin/*
 *.csproj.user
 *Generated_Code*
 *.xap
+*/ClientBin/*
