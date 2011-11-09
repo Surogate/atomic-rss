@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Navigation;
 using atomic.rss.sl4.navigable.ViewModel;
+using System.Diagnostics;
 
 namespace atomic.rss.sl4.navigable.Views
 {
@@ -26,9 +27,16 @@ namespace atomic.rss.sl4.navigable.Views
         {
             if (!WebContext.Current.Authentication.User.Identity.IsAuthenticated || !WebContext.Current.Authentication.User.IsInRole("Admin"))
             {
-                ((atomic.rss.sl4.navigable.ViewModel.MainViewModel)DataContext).CurrentPage = "/LoginAndRegister";
-                if (WebContext.Current.Authentication.User.Identity.IsAuthenticated)
-                    ((atomic.rss.sl4.navigable.ViewModel.MainViewModel)DataContext).CurrentPage = "/Home";
+                try
+                {
+                    ((atomic.rss.sl4.navigable.ViewModel.MainViewModel)DataContext).CurrentPage = "/LoginAndRegister";
+                    if (WebContext.Current.Authentication.User.Identity.IsAuthenticated)
+                        ((atomic.rss.sl4.navigable.ViewModel.MainViewModel)DataContext).CurrentPage = "/Home";
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.StackTrace);
+                }
             }
         }
 
