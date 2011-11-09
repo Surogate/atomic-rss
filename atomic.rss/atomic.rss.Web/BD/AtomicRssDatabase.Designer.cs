@@ -18,7 +18,7 @@ using System.Runtime.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("AtomicRssDatabase", "ChannelsArticles", "Channels", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(atomic.rss.Web.BD.Channels), "Articles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(atomic.rss.Web.BD.Articles))]
+[assembly: EdmRelationshipAttribute("AtomicRssDatabase", "ChannelsArticles", "Channels", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(atomic.rss.Web.BD.Channels), "Articles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(atomic.rss.Web.BD.Articles), true)]
 [assembly: EdmRelationshipAttribute("AtomicRssDatabase", "UsersChannels", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(atomic.rss.Web.BD.Users), "Channels", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(atomic.rss.Web.BD.Channels))]
 [assembly: EdmRelationshipAttribute("AtomicRssDatabase", "UsersArticles", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(atomic.rss.Web.BD.Users), "Articles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(atomic.rss.Web.BD.Articles))]
 
@@ -168,21 +168,21 @@ namespace atomic.rss.Web.BD
         /// <summary>
         /// Create a new Articles object.
         /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
         /// <param name="title">Initial value of the Title property.</param>
         /// <param name="link">Initial value of the Link property.</param>
         /// <param name="description">Initial value of the Description property.</param>
         /// <param name="date">Initial value of the Date property.</param>
         /// <param name="gUID">Initial value of the GUID property.</param>
-        public static Articles CreateArticles(global::System.Int32 id, global::System.String title, global::System.String link, global::System.String description, global::System.DateTime date, global::System.String gUID)
+        /// <param name="channels_ID">Initial value of the Channels_ID property.</param>
+        public static Articles CreateArticles(global::System.String title, global::System.String link, global::System.String description, global::System.DateTime date, global::System.String gUID, global::System.Int32 channels_ID)
         {
             Articles articles = new Articles();
-            articles.Id = id;
             articles.Title = title;
             articles.Link = link;
             articles.Description = description;
             articles.Date = date;
             articles.GUID = gUID;
+            articles.Channels_ID = channels_ID;
             return articles;
         }
 
@@ -212,7 +212,7 @@ namespace atomic.rss.Web.BD
                 }
             }
         }
-        private global::System.Int32 _Id;
+        private global::System.Int32 _Id = 0;
         partial void OnIdChanging(global::System.Int32 value);
         partial void OnIdChanged();
     
@@ -335,6 +335,30 @@ namespace atomic.rss.Web.BD
         private global::System.String _GUID;
         partial void OnGUIDChanging(global::System.String value);
         partial void OnGUIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Channels_ID
+        {
+            get
+            {
+                return _Channels_ID;
+            }
+            set
+            {
+                OnChannels_IDChanging(value);
+                ReportPropertyChanging("Channels_ID");
+                _Channels_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Channels_ID");
+                OnChannels_IDChanged();
+            }
+        }
+        private global::System.Int32 _Channels_ID;
+        partial void OnChannels_IDChanging(global::System.Int32 value);
+        partial void OnChannels_IDChanged();
 
         #endregion
     
@@ -416,7 +440,6 @@ namespace atomic.rss.Web.BD
         /// <summary>
         /// Create a new Channels object.
         /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
         /// <param name="title">Initial value of the Title property.</param>
         /// <param name="description">Initial value of the Description property.</param>
         /// <param name="link">Initial value of the Link property.</param>
@@ -424,10 +447,9 @@ namespace atomic.rss.Web.BD
         /// <param name="author">Initial value of the Author property.</param>
         /// <param name="updateFrequency">Initial value of the UpdateFrequency property.</param>
         /// <param name="date">Initial value of the Date property.</param>
-        public static Channels CreateChannels(global::System.Int32 id, global::System.String title, global::System.String description, global::System.String link, global::System.String language, global::System.String author, global::System.Int32 updateFrequency, global::System.DateTime date)
+        public static Channels CreateChannels(global::System.String title, global::System.String description, global::System.String link, global::System.String language, global::System.String author, global::System.Int32 updateFrequency, global::System.DateTime date)
         {
             Channels channels = new Channels();
-            channels.Id = id;
             channels.Title = title;
             channels.Description = description;
             channels.Link = link;
@@ -464,7 +486,7 @@ namespace atomic.rss.Web.BD
                 }
             }
         }
-        private global::System.Int32 _Id;
+        private global::System.Int32 _Id = 0;
         partial void OnIdChanging(global::System.Int32 value);
         partial void OnIdChanged();
     

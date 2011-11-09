@@ -1,0 +1,44 @@
+﻿<navigation:Page 
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+           xmlns:atomic_rss_sl4_navigable_ViewModel="clr-namespace:atomic.rss.sl4.navigable.ViewModel" x:Class="atomic.rss.sl4.navigable.Views.LoginAndRegister"
+           mc:Ignorable="d"
+           d:DesignWidth="640" d:DesignHeight="480"
+           Title="LoginAndRegister Page">
+    <Grid x:Name="LayoutRoot">
+    	<Grid.ColumnDefinitions>
+    		<ColumnDefinition Width="0.498*"/>
+    		<ColumnDefinition Width="0.502*"/>
+    	</Grid.ColumnDefinitions>
+    	<Grid x:Name="LoginBlock" Height="117" Margin="0,100,67,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="182">
+    		<Grid Height="25" VerticalAlignment="Top">
+    			<TextBox Margin="79,0,0,0" TextWrapping="Wrap" Text="{Binding Email, Mode=TwoWay}"/>
+    			<TextBlock HorizontalAlignment="Left" Margin="0,3,0,2" TextWrapping="Wrap" Text="Login (Email)" Width="79"/>
+    		</Grid>
+    		<Grid Margin="0,42,0,50">
+    			<PasswordBox Margin="79,0,0,0" Password="{Binding Password, Mode=TwoWay}"/>
+    			<TextBlock HorizontalAlignment="Left" Margin="0,5,0,4" TextWrapping="Wrap" Text="Password" Width="75"/>
+    		</Grid>
+    		<Button Content="Connect" HorizontalAlignment="Left" Height="24" VerticalAlignment="Bottom" Width="84" Command="{Binding Login}"/>
+    	</Grid>
+    	<Grid x:Name="RegisterBlock" Height="148" Margin="35,85,0,0" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Left" Width="216">
+    		<Grid Height="25" VerticalAlignment="Top">
+    			<TextBlock Margin="0,4" TextWrapping="Wrap" Text="Login (Email)" HorizontalAlignment="Left" Width="91"/>
+    			<TextBox TextWrapping="Wrap" Text="{Binding Email, Mode=TwoWay}" HorizontalAlignment="Right" Width="103"/>
+    		</Grid>
+    		<Grid Height="25" Margin="0,39,0,0" VerticalAlignment="Top">
+    			<TextBlock Margin="0,4,0,5" TextWrapping="Wrap" Text="Password" HorizontalAlignment="Left" Width="75"/>
+    			<PasswordBox HorizontalAlignment="Right" Width="103" Password="{Binding Password, Mode=TwoWay}"/>
+    		</Grid>
+    		<Grid Height="25" Margin="0,0,0,48" VerticalAlignment="Bottom">
+    			<TextBlock Margin="0,5,92,4" TextWrapping="Wrap" Text="Confirm Password"/>
+    			<PasswordBox HorizontalAlignment="Right" Width="103" Password="{Binding PasswordCheck, Mode=TwoWay}"/>
+    		</Grid>
+    		<Button Content="Register" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="84" Command="{Binding Register}"/>
+    	</Grid>
+    	<TextBlock x:Name="InfoText" Height="109" Margin="70,0,70,47" TextWrapping="Wrap" VerticalAlignment="Bottom" Grid.ColumnSpan="2"/>
+    </Grid>
+</navigation:Page>
