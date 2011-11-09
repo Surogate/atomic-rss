@@ -8,25 +8,27 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Navigation;
 using atomic.rss.sl4.navigable.ViewModel;
 
-namespace atomic.rss.sl4.navigable
+namespace atomic.rss.sl4.navigable.Views
 {
-    public partial class Home : Page
+    public partial class AdminPanel : Page
     {
-        public Home()
+        public AdminPanel()
         {
             InitializeComponent();
-            Loaded += new RoutedEventHandler(Home_Loaded);
+            Loaded += new RoutedEventHandler(AdminPanel_Loaded);
         }
 
-        void Home_Loaded(object sender, RoutedEventArgs e)
+        void AdminPanel_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!WebContext.Current.Authentication.User.Identity.IsAuthenticated)
+            if (!WebContext.Current.Authentication.User.Identity.IsAuthenticated || !WebContext.Current.Authentication.User.IsInRole("Admin"))
             {
                 ((MainViewModel)DataContext).CurrentPage = "/LoginAndRegister";
+                if (WebContext.Current.Authentication.User.Identity.IsAuthenticated)
+                    ((MainViewModel)DataContext).CurrentPage = "/Home";
             }
         }
 
@@ -34,5 +36,6 @@ namespace atomic.rss.sl4.navigable
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
         }
+
     }
 }

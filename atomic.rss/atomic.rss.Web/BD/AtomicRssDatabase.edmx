@@ -36,7 +36,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" DefaultValue="0" />
     <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Link" Type="nvarchar(max)" Nullable="false" />
@@ -58,13 +58,13 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" DefaultValue="0" />
     <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Link" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="GUID" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Channels_Id" Type="int" Nullable="false" />
+    <Property Name="Channels_ID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="UsersChannels">
     <Key>
@@ -72,7 +72,7 @@
       <PropertyRef Name="Channels_Id" />
     </Key>
     <Property Name="Users_Id" Type="int" Nullable="false" />
-    <Property Name="Channels_Id" Type="int" Nullable="false" />
+    <Property Name="Channels_Id" Type="int" Nullable="false" DefaultValue="0" />
   </EntityType>
   <EntityType Name="UsersArticles">
     <Key>
@@ -80,17 +80,19 @@
       <PropertyRef Name="Articles_Id" />
     </Key>
     <Property Name="Users_Id" Type="int" Nullable="false" />
-    <Property Name="Articles_Id" Type="int" Nullable="false" />
+    <Property Name="Articles_Id" Type="int" Nullable="false" DefaultValue="0" />
   </EntityType>
   <Association Name="ChannelsArticles">
-    <End Role="Channels" Type="AtomicRssDatabase.Store.ChannelsSet" Multiplicity="1" />
+    <End Role="Channels" Type="AtomicRssDatabase.Store.ChannelsSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="Articles" Type="AtomicRssDatabase.Store.ArticlesSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Channels">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Articles">
-        <PropertyRef Name="Channels_Id" />
+        <PropertyRef Name="Channels_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -167,7 +169,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" DefaultValue="0" />
           <Property Type="String" Name="Title" Nullable="false" />
           <Property Type="String" Name="Description" Nullable="false" />
           <Property Type="String" Name="Link" Nullable="false" />
@@ -193,7 +195,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" DefaultValue="0" />
           <Property Type="String" Name="Title" Nullable="false" />
           <Property Type="String" Name="Link" Nullable="false" />
           <Property Type="String" Name="Description" Nullable="false" />
@@ -201,10 +203,21 @@
           <Property Type="String" Name="GUID" Nullable="false" />
           <NavigationProperty Name="Channels" Relationship="AtomicRssDatabase.ChannelsArticles" FromRole="Articles" ToRole="Channels" />
           <NavigationProperty Name="Users" Relationship="AtomicRssDatabase.UsersArticles" FromRole="Articles" ToRole="Users" />
+          <Property Type="Int32" Name="Channels_ID" Nullable="false" />
         </EntityType>
         <Association Name="ChannelsArticles">
-          <End Type="AtomicRssDatabase.Channels" Role="Channels" Multiplicity="1" />
+          <End Type="AtomicRssDatabase.Channels" Role="Channels" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="AtomicRssDatabase.Articles" Role="Articles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channels">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Articles">
+              <PropertyRef Name="Channels_ID" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="UsersChannels">
           <End Type="AtomicRssDatabase.Users" Role="Users" Multiplicity="*" />
@@ -253,17 +266,10 @@
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="GUID" ColumnName="GUID" />
+          <ScalarProperty Name="Channels_ID" ColumnName="Channels_ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="ChannelsArticles" TypeName="AtomicRssDatabase.ChannelsArticles" StoreEntitySet="ArticlesSet">
-      <EndProperty Name="Channels">
-        <ScalarProperty Name="Id" ColumnName="Channels_Id" />
-      </EndProperty>
-      <EndProperty Name="Articles">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
     <AssociationSetMapping Name="UsersChannels" TypeName="AtomicRssDatabase.UsersChannels" StoreEntitySet="UsersChannels">
       <EndProperty Name="Users">
         <ScalarProperty Name="Id" ColumnName="Users_Id" />
@@ -301,10 +307,10 @@
       <Diagram Name="AtomicRssDatabase" >
         <EntityTypeShape EntityType="AtomicRssDatabase.Channels" Width="1.5" PointX="4.875" PointY="0.625" Height="2.7494921874999996" />
         <EntityTypeShape EntityType="AtomicRssDatabase.Users" Width="1.5" PointX="0.5" PointY="0.625" Height="2.172587890625" />
-        <EntityTypeShape EntityType="AtomicRssDatabase.Articles" Width="1.5" PointX="8.125" PointY="0.625" Height="2.364889322916667" />
+        <EntityTypeShape EntityType="AtomicRssDatabase.Articles" Width="1.5" PointX="8.125" PointY="0.625" Height="2.7494921875" />
         <AssociationConnector Association="AtomicRssDatabase.ChannelsArticles">
-          <ConnectorPoint PointX="6.375" PointY="1.8074446614583335" />
-          <ConnectorPoint PointX="8.125" PointY="1.8074446614583335" />
+          <ConnectorPoint PointX="6.375" PointY="1.9997460937499998" />
+          <ConnectorPoint PointX="8.125" PointY="1.9997460937499998" />
         </AssociationConnector>
         <AssociationConnector Association="AtomicRssDatabase.UsersChannels">
           <ConnectorPoint PointX="2" PointY="1.7112939453124998" />
