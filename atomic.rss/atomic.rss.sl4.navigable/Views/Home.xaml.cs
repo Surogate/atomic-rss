@@ -10,7 +10,6 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using atomic.rss.sl4.navigable.ViewModel;
 
 namespace atomic.rss.sl4.navigable
 {
@@ -19,15 +18,6 @@ namespace atomic.rss.sl4.navigable
         public Home()
         {
             InitializeComponent();
-            Loaded += new RoutedEventHandler(Home_Loaded);
-        }
-
-        void Home_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (!WebContext.Current.Authentication.User.Identity.IsAuthenticated)
-            {
-                ((MainViewModel)DataContext).CurrentPage = "/LoginAndRegister";
-            }
         }
 
         // Executes when the user navigates to this page.
