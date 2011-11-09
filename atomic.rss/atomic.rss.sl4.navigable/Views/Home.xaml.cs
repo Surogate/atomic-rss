@@ -10,7 +10,6 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using atomic.rss.sl4.navigable.ViewModel;
 
 namespace atomic.rss.sl4.navigable
 {
@@ -26,7 +25,7 @@ namespace atomic.rss.sl4.navigable
         {
             if (!WebContext.Current.Authentication.User.Identity.IsAuthenticated)
             {
-                ((MainViewModel)DataContext).CurrentPage = "/LoginAndRegister";
+                ((atomic.rss.sl4.navigable.ViewModel.MainViewModel)DataContext).CurrentPage = "/LoginAndRegister";
             }
         }
 

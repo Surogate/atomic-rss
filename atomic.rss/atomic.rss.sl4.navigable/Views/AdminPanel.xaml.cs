@@ -26,9 +26,9 @@ namespace atomic.rss.sl4.navigable.Views
         {
             if (!WebContext.Current.Authentication.User.Identity.IsAuthenticated || !WebContext.Current.Authentication.User.IsInRole("Admin"))
             {
-                ((MainViewModel)DataContext).CurrentPage = "/LoginAndRegister";
+                ((atomic.rss.sl4.navigable.ViewModel.MainViewModel)DataContext).CurrentPage = "/LoginAndRegister";
                 if (WebContext.Current.Authentication.User.Identity.IsAuthenticated)
-                    ((MainViewModel)DataContext).CurrentPage = "/Home";
+                    ((atomic.rss.sl4.navigable.ViewModel.MainViewModel)DataContext).CurrentPage = "/Home";
             }
         }
 
