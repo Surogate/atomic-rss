@@ -27,12 +27,11 @@ namespace atomic.rss.sl4.navigable.ViewModel
         private Users selectedUser_;
         private Channels selectedChannels_;
 
-        private ICommand saveUser_;
+        private ICommand submit_;
         private ICommand deleteUser_;
         private ICommand addUser_;
-        private ICommand saveChannels_;
         private ICommand deleteChannels_;
-        private ICommand addChannels_;
+        private ICommand addChannels_; // TODO : Supprimer cette fonction plus tard
 
         private DataRssDomainContext context_;
         #endregion
@@ -50,9 +49,11 @@ namespace atomic.rss.sl4.navigable.ViewModel
                 LoadOperation<Users> loadUsers = context_.Load(qusers);
                 LoadOperation<Channels> loadChannels = context_.Load(qchannels);
 
-                saveUser_ = new RelayCommand(param => this.saveUser());
+                submit_ = new RelayCommand(param => this.submit());
                 deleteUser_ = new RelayCommand(param => this.deleteUser());
-                addUser_ = new RelayCommand(parma => this.addUser());
+                addUser_ = new RelayCommand(param => this.addUser());
+                addChannels_ = new RelayCommand(param => this.addChannels());
+                deleteChannels_ = new RelayCommand(param => this.deleteChannels());
             }
             catch (Exception e)
             {
@@ -119,11 +120,11 @@ namespace atomic.rss.sl4.navigable.ViewModel
         #endregion
 
         #region Commands
-        public ICommand SaveUser
+        public ICommand Submit
         {
             get
             {
-                return (saveUser_);
+                return (submit_);
             }
             set { }
         }
@@ -142,15 +143,6 @@ namespace atomic.rss.sl4.navigable.ViewModel
             get 
             {
                 return (addUser_);
-            }
-            set { }
-        }
-
-        public ICommand SaveChannels
-        {
-            get
-            {
-                return (saveChannels_);
             }
             set { }
         }
@@ -177,30 +169,81 @@ namespace atomic.rss.sl4.navigable.ViewModel
         #region Methods
         private void addUser()
         {
-            UsersSet.Add(new Users());
-            OnPropertyChanged("UsersSet");
-        }
-
-        private void deleteUser()
-        {
-            if (SelectedUser != null)
-            {
-                UsersSet.Remove(SelectedUser);
-                OnPropertyChanged("UsersSet");
-            }
-        }
-
-        private void saveUser()
-        {
             try
             {
-                context_.SubmitChanges();
+                UsersSet.Add(new Users());
+                OnPropertyChanged("UsersSet");
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.StackTrace);
             }
+        }
 
+        private void deleteUser()
+        {
+            try
+            {
+                if (SelectedUser != null)
+                {
+                    UsersSet.Remove(SelectedUser);
+                    OnPropertyChanged("UsersSet");
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+            }
+        }
+
+        private void addChannels()
+        {
+            try
+            {
+                ChannelsSet.Add(new Channels());
+                OnPropertyChanged("ChannelsSet");
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+            }
+        }
+
+        private void deleteChannels()
+        {
+            try
+            {
+                if (SelectedChannels != null)
+                {
+                    ChannelsSet.Remove(SelectedChannels);
+                    OnPropertyChanged("ChannelsSet");
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+            }
+        }
+
+        private void submit()
+        {
+            try
+            {
+                context_.SubmitChanges(submit_Completed, null);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+            }
+        }
+
+        private void submit_Completed(SubmitOperation so)
+        {
+            if (so.HasError)
+            {
+                Debug.WriteLine(so.Error.StackTrace);
+                so.MarkErrorAsHandled();
+            }
         }
         #endregion
     }

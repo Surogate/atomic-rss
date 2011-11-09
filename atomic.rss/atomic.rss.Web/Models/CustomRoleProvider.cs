@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
+using atomic.rss.Web.BD;
+using System.Diagnostics;
 
 namespace atomic.rss.Web.Models
 {
@@ -22,8 +24,20 @@ namespace atomic.rss.Web.Models
 
         public override string[] GetRolesForUser(string username)
         {
-            if (username == "admin@atomic.rss") return new string[] { "Admin" };
-            else return new string[]{};
+            try
+            {
+                using (AtomicRssDatabaseContainer context = new AtomicRssDatabaseContainer())
+                {
+                    Users u = (from el in context.UsersSet where el.Email == username select el).FirstOrDefault();
+                    if (u != null && u.IsAdmin)
+                        return new string[] { "Admin" };
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("CustomRoleProvider have a little problem : " + e.StackTrace);
+            }
+            return new string[]{};
         }
 
         #endregion
