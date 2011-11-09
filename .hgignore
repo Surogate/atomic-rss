@@ -1,3 +1,5 @@
 syntax: glob
 */obj/*
 */Bin/*
+*bin/*
+*/ClientBin/*
