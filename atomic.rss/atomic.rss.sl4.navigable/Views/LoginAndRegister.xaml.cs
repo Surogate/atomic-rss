@@ -8,31 +8,22 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using atomic.rss.sl4.navigable.ViewModel;
+using System.Windows.Navigation;
 
-namespace atomic.rss.sl4.navigable
+namespace atomic.rss.sl4.navigable.Views
 {
-    public partial class Home : Page
+    public partial class LoginAndRegister : Page
     {
-        public Home()
+        public LoginAndRegister()
         {
             InitializeComponent();
-            Loaded += new RoutedEventHandler(Home_Loaded);
-        }
-
-        void Home_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (!WebContext.Current.Authentication.User.Identity.IsAuthenticated)
-            {
-                ((MainViewModel)DataContext).CurrentPage = "/LoginAndRegister";
-            }
         }
 
         // Executes when the user navigates to this page.
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
         }
+
     }
 }
