@@ -46,7 +46,6 @@
     <Reference Include="System.ServiceModel.Activation" />
     <Reference Include="System.ServiceModel.DomainServices.EntityFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System.ServiceModel.DomainServices.Hosting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.ServiceModel.DomainServices.Hosting.OData, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System.ServiceModel.DomainServices.Server, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web.DynamicData" />
@@ -72,14 +71,11 @@
     <Content Include="atomic.rss.sl4TestPage.aspx" />
     <Content Include="atomic.rss.sl4TestPage.html" />
     <Content Include="BD\AtomicRssDatabase.edmx.sql" />
-    <Content Include="ClientBin\atomic.rss.sl4.navigable.xap" />
     <Content Include="ClientBin\atomic.rss.sl4.xap" />
     <Content Include="Services\AtomicRssDataService.svc" />
     <Content Include="Services\RegisterService.svc" />
     <Content Include="Silverlight.js" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -101,8 +97,6 @@
       <DependentUpon>AtomicRssDataService.svc</DependentUpon>
     </Compile>
     <Compile Include="Services\AuthentificationDomainService.cs" />
-    <Compile Include="Services\DataRssDomainService.cs" />
-    <Compile Include="Services\DataRssDomainService.metadata.cs" />
     <Compile Include="Services\IRegisterService.cs" />
     <Compile Include="Services\RegisterService.svc.cs">
       <DependentUpon>RegisterService.svc</DependentUpon>
