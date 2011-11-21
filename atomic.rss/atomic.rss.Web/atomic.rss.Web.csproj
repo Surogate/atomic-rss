@@ -71,10 +71,12 @@
     <Content Include="atomic.rss.sl4.navigableTestPage.html" />
     <Content Include="atomic.rss.sl4TestPage.aspx" />
     <Content Include="atomic.rss.sl4TestPage.html" />
+    <Content Include="BD\adminuser.sql" />
     <Content Include="BD\AtomicRssDatabase.edmx.sql" />
     <Content Include="ClientBin\atomic.rss.sl4.navigable.xap" />
     <Content Include="ClientBin\atomic.rss.sl4.xap" />
     <Content Include="Services\AtomicRssDataService.svc" />
+    <Content Include="Services\FeedsManager.svc" />
     <Content Include="Services\RegisterService.svc" />
     <Content Include="Silverlight.js" />
     <Content Include="Web.config">
@@ -103,6 +105,10 @@
     <Compile Include="Services\AuthentificationDomainService.cs" />
     <Compile Include="Services\DataRssDomainService.cs" />
     <Compile Include="Services\DataRssDomainService.metadata.cs" />
+    <Compile Include="Services\FeedsManager.svc.cs">
+      <DependentUpon>FeedsManager.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Services\IFeedsManager.cs" />
     <Compile Include="Services\IRegisterService.cs" />
     <Compile Include="Services\RegisterService.svc.cs">
       <DependentUpon>RegisterService.svc</DependentUpon>

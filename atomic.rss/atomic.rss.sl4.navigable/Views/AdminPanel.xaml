@@ -28,7 +28,7 @@
     		</sdk:TabItem>
     		<sdk:TabItem Header="Channels">
     			<Grid Background="#FFE5E5E5">
-    				<sdk:DataGrid ItemsSource="{Binding ChannelsSet}" SelectionMode="Single" SelectedItem="{Binding SelectedChannels}" Margin="0,0,0,31"/>
+    				<sdk:DataGrid ItemsSource="{Binding ChannelsSet}" SelectionMode="Single" SelectedItem="{Binding SelectedChannels, Mode=TwoWay}" Margin="0,0,0,31"/>
     				<Grid HorizontalAlignment="Left" Height="27" Margin="19,0,0,0" VerticalAlignment="Bottom" Width="253">
     					<Button Content="Delete" HorizontalAlignment="Left" Width="75" Command="{Binding DeleteChannels}"/>
     					<Button Content="Submit" Command="{Binding Submit}" Margin="92,0,86,0"/>

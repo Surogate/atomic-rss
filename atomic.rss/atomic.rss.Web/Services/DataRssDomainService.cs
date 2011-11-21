@@ -114,6 +114,7 @@ namespace atomic.rss.Web.Services
         // add parameters to this method or create additional query methods with different names.
         // To support paging you will need to add ordering to the 'UsersSet' query.
         [Query(IsDefault = true)]
+        [RequiresRole("Admin", ErrorMessage= @"You must be part of the administration team.")]
         public IQueryable<Users> GetUsersSet()
         {
             return this.ObjectContext.UsersSet;
