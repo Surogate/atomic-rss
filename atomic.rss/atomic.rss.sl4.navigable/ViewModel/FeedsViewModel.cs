@@ -1,0 +1,332 @@
+﻿using System;
+using System.Linq;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using atomic.rss.sl4.navigable.Utils;
+using System.ServiceModel.DomainServices.Client;
+using System.Diagnostics;
+using System.Data.Services.Client;
+using System.Collections.ObjectModel;
+using atomic.rss.Web.Services;
+using atomic.rss.Web.BD;
+
+
+namespace atomic.rss.sl4.navigable.ViewModel
+{
+    public class FeedsViewModel : BasicViewModel
+    {
+        #region Constants
+        private const string URI_RSS_DATA_SERVICE = "http://localhost:48655/Services/AtomicRssDataService.svc/";
+        #endregion
+
+        #region Attributes
+        private ObservableCollection<Articles> unread_articles_set_;
+        private ObservableCollection<Articles> readed_articles_set_;
+        private ObservableCollection<string> subscribed_chan_set_;
+        private ObservableCollection<string> unsub_chan_set_;
+        private Articles selected_article_;
+        private Channels selected_channel_;
+        private string uri_channel_;
+
+        private ICommand refresh_;
+        private ICommand add_channels_;
+        private ICommand subscribe_chan_;
+        private ICommand unsub_chan_;
+        #endregion
+
+        #region Constructors
+        public FeedsViewModel()
+        {
+            setChannels();
+            selected_article_ = null;
+            selected_channel_ = null;
+            uri_channel_ = null;
+            refresh_ = new RelayCommand(param => this.refresh());
+            add_channels_ = new RelayCommand(param => this.addChannels());
+            subscribe_chan_ = new RelayCommand(param => this.subscribe());
+            unsub_chan_ = new RelayCommand(param => this.unsubscribe());
+        }
+        #endregion
+
+        #region Properties
+        public ObservableCollection<Articles> UnreadArticles
+        {
+            get
+            {
+                return unread_articles_set_;
+            }
+            set
+            {
+                unread_articles_set_ = value;
+                OnPropertyChanged("UnreadArticles");
+            }
+        }
+
+        public ObservableCollection<Articles> Archives
+        {
+            get
+            {
+                return readed_articles_set_;
+            }
+            set
+            {
+                readed_articles_set_ = value;
+                OnPropertyChanged("Archives");
+            }
+        }
+
+        public ObservableCollection<string> SubChannels
+        {
+            get
+            {
+                return subscribed_chan_set_;
+            }
+            set
+            {
+                subscribed_chan_set_ = value;
+                OnPropertyChanged("SubChannels");
+            }
+        }
+
+        public ObservableCollection<string> UnsubChannels
+        {
+            get
+            {
+                return (unsub_chan_set_);
+            }
+            set
+            {
+                unsub_chan_set_ = value;
+                OnPropertyChanged("UnsubChannels");
+            }
+        }
+
+        public Articles SelectedArticles
+        {
+            get
+            {
+                return (selected_article_);
+            }
+            set
+            {
+                selected_article_ = value;
+                OnPropertyChanged("SelectedArticles");
+            }
+        }
+
+        public Channels SelectedChannels
+        {
+            get
+            {
+                return (selected_channel_);
+            }
+            set
+            {
+                selected_channel_ = value;
+                OnPropertyChanged("SelectedChannels");
+            }
+        }
+
+        public string UriChannel
+        {
+            get
+            {
+                return (uri_channel_);
+            }
+            set
+            {
+                uri_channel_ = value;
+                OnPropertyChanged("SelectedChannels");
+            }
+        }
+        #endregion
+
+        #region Commands
+        public ICommand Refresh
+        {
+            get
+            {
+                return (refresh_);
+            }
+            set
+            {
+
+            }
+        }
+
+        public ICommand AddChannels
+        {
+            get
+            {
+                return (add_channels_);
+            }
+            set
+            {
+
+            }
+        }
+
+        public ICommand Subscribe
+        {
+            get
+            {
+                return (subscribe_chan_);
+            }
+            set
+            {
+
+            }
+        }
+
+        public ICommand Unsubscribe
+        {
+            get
+            {
+                return (unsub_chan_);
+            }
+            set
+            {
+
+            }
+        }
+        #endregion
+
+        #region Methods
+        private void setChannels()
+        {
+            try
+            {
+                DataRssDomainContext context = new DataRssDomainContext();
+                
+                EntityQuery<Articles> qarticle = context.GetArticlesSetQuery();
+                                                 //where art.Channels.Title == "Korben"
+                                                 //orderby art.Date
+                                                 //select art;
+                LoadOperation<Articles> loadArt = context.Load(qarticle);
+                UnreadArticles = new ObservableCollection<Articles>(context.Articles.ToList());
+                //FeedsManager.FeedsManagerClient clt = new FeedsManager.FeedsManagerClient();
+                //clt.GetUserChannelsAsync(WebContext.Current.Authentication.User.Identity.Name);
+                //clt.GetUserChannelsCompleted += new EventHandler<FeedsManager.GetUserChannelsCompletedEventArgs>(clt_GetUserChannelsCompleted);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+        void clt_GetUserChannelsCompleted(object sender, FeedsManager.GetUserChannelsCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                if (e.Result != null)
+                {
+                    Debug.WriteLine("Result is ok");
+                    SubChannels = e.Result;
+                }
+            }
+        }
+
+
+        private void refresh()
+        {
+            try
+            {
+                FeedsManager.FeedsManagerClient fmcl = new FeedsManager.FeedsManagerClient();
+                fmcl.LoadArticlesAsync();
+                fmcl.LoadArticlesCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(fmcl_LoadArticlesCompleted);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+        void fmcl_LoadArticlesCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                Debug.WriteLine("Refresh ok");
+            }
+            else
+                Debug.WriteLine("Refresh fail : " + e.Error.Message);
+        }
+
+        private void addChannels()
+        {
+            try
+            {
+                if (uri_channel_ != null)
+                {
+                    FeedsManager.FeedsManagerClient clt = new FeedsManager.FeedsManagerClient();
+                    clt.AddChannelsAsync(WebContext.Current.Authentication.User.Identity.Name, uri_channel_);
+                    clt.AddChannelsCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clt_AddChannelsCompleted);
+                    refresh();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+        void clt_AddChannelsCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            if (e.Error == null)
+                Debug.WriteLine("Add Channels complete");
+            else
+                Debug.WriteLine("Error : " + e.Error.Message);
+        }
+
+        private void subscribe()
+        {
+            try
+            {
+                if (SelectedChannels != null)
+                {
+                    FeedsManager.FeedsManagerClient clt = new FeedsManager.FeedsManagerClient();
+                    clt.AddChannelsAsync(WebContext.Current.Authentication.User.Identity.Name, SelectedChannels.Link);
+                    clt.AddChannelsCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clt_AddChannelsCompleted);
+                }
+                SelectedChannels = null;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+        private void unsubscribe()
+        {
+            try
+            {
+                if (SelectedChannels != null)
+                {
+                    FeedsManager.FeedsManagerClient clt = new FeedsManager.FeedsManagerClient();
+                    clt.RemoveChannelsFromUserAsync(WebContext.Current.Authentication.User.Identity.Name, SelectedChannels.Id);
+                    clt.RemoveChannelsFromUserCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clt_RemoveChannelsFromUserCompleted);
+                }
+                SelectedChannels = null;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+        void clt_RemoveChannelsFromUserCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            if (e.Error == null)
+                Debug.WriteLine("Add Channels complete");
+            else
+                Debug.WriteLine("Error : " + e.Error.Message);
+        }
+        #endregion
+    }
+}

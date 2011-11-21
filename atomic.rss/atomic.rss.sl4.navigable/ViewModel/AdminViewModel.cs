@@ -52,7 +52,6 @@ namespace atomic.rss.sl4.navigable.ViewModel
                 submit_ = new RelayCommand(param => this.submit());
                 deleteUser_ = new RelayCommand(param => this.deleteUser());
                 addUser_ = new RelayCommand(param => this.addUser());
-                addChannels_ = new RelayCommand(param => this.addChannels());
                 deleteChannels_ = new RelayCommand(param => this.deleteChannels());
             }
             catch (Exception e)
@@ -151,7 +150,7 @@ namespace atomic.rss.sl4.navigable.ViewModel
         {
             get
             {
-                return (deleteUser_);
+                return (deleteChannels_);
             }
             set { }
         }
@@ -189,19 +188,6 @@ namespace atomic.rss.sl4.navigable.ViewModel
                     UsersSet.Remove(SelectedUser);
                     OnPropertyChanged("UsersSet");
                 }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.StackTrace);
-            }
-        }
-
-        private void addChannels()
-        {
-            try
-            {
-                ChannelsSet.Add(new Channels());
-                OnPropertyChanged("ChannelsSet");
             }
             catch (Exception e)
             {

@@ -6,12 +6,19 @@
                     maxReceivedMessageSize="2147483647">
                     <security mode="None" />
                 </binding>
+                <binding name="BasicHttpBinding_IFeedsManager" maxBufferSize="2147483647"
+                    maxReceivedMessageSize="2147483647">
+                    <security mode="None" />
+                </binding>
             </basicHttpBinding>
         </bindings>
         <client>
             <endpoint address="http://localhost:48655/Services/RegisterService.svc"
                 binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IRegisterService"
                 contract="RegisterService.IRegisterService" name="BasicHttpBinding_IRegisterService" />
+            <endpoint address="http://localhost:48655/Services/FeedsManager.svc"
+                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IFeedsManager"
+                contract="FeedsManager.IFeedsManager" name="BasicHttpBinding_IFeedsManager" />
         </client>
     </system.serviceModel>
 </configuration>
