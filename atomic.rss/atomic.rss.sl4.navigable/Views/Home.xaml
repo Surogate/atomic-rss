@@ -6,7 +6,7 @@
     xmlns:atomic_rss_sl4_navigable_ViewModel="clr-namespace:atomic.rss.sl4.navigable.ViewModel" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" x:Class="atomic.rss.sl4.navigable.Home"
     mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="480"
     Title="Home"
-    Style="{StaticResource PageStyle}">
+    Style="{StaticResource PageStyle}" MaxWidth="1024">
 
 	<navigation:Page.DataContext>
 		<atomic_rss_sl4_navigable_ViewModel:FeedsViewModel/>
@@ -15,20 +15,39 @@
     <Grid x:Name="LayoutRoot">
     	<sdk:TabControl Margin="-1,-2,0,0">
     		<sdk:TabItem x:Name="Feeds" Header="Feeds">
-    			<Grid Background="#FFE5E5E5">
-    				<ListBox x:Name="Preview" HorizontalAlignment="Left" Width="222" Margin="0,0,0,39" ItemsSource="{Binding UnreadArticles}"/>
-    				<RichTextBox x:Name="ArticleViewer" Margin="226,0,0,0">
-    					<Paragraph><Run Text=""/></Paragraph>
-    				</RichTextBox>
-    				<Button Content="Refresh" HorizontalAlignment="Left" Height="27" Margin="26,0,0,8" VerticalAlignment="Bottom" Width="167"/>
+    			<Grid x:Name="grid" Background="#FFE5E5E5">
+    				<Button Content="Refresh" Height="27" Margin="8,8,0,0" VerticalAlignment="Top" Command="{Binding Refresh}" HorizontalAlignment="Left" Width="167"/>
+    				<ListBox Margin="0,39,0,0" ItemsSource="{Binding UnreadArticles}" SelectedItem="{Binding SelectedArticles, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+    					<ListBox.ItemTemplate>
+    						<DataTemplate>
+    							<StackPanel Orientation="Vertical">
+				    				<TextBlock x:Name="Title" FontSize="14" Text="{Binding Title}"/>
+									<TextBlock x:Name="Date" Text="{Binding Date}" Margin="0,0,0,10"/>
+				    				<TextBlock x:Name="Summary" TextWrapping="Wrap" Text="{Binding Description}" MaxWidth="1018" Margin="0,0,0,10"/>
+									<HyperlinkButton NavigateUri="{Binding Link}" TargetName="_new"><TextBlock x:Name="Link" Text="{Binding Link}"/></HyperlinkButton>
+									<Rectangle Height="2" Fill="Beige"/>
+								</StackPanel>			
+							</DataTemplate>			
+						</ListBox.ItemTemplate>
+    			    </ListBox>
+    				<Button Content="All Read" Height="27" Margin="203,8,0,0" VerticalAlignment="Top" Command="{Binding AllRead}" HorizontalAlignment="Left" Width="167"/>
     			</Grid>
     		</sdk:TabItem>
     		<sdk:TabItem Header="Archives" Height="24" VerticalAlignment="Bottom">
     			<Grid Background="#FFE5E5E5">
-    				<ListBox x:Name="Preview_Copy" HorizontalAlignment="Left" Width="222" ItemsSource="{Binding Archives}"/>
-    				<RichTextBox x:Name="ArticleViewer_Copy" Margin="226,0,0,0">
-    					<Paragraph><Run Text=""/></Paragraph>
-    				</RichTextBox>
+    				<ListBox ItemsSource="{Binding Archives}" SelectedItem="{Binding SelectedArticles}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+    					<ListBox.ItemTemplate>
+    						<DataTemplate>
+    							<StackPanel Orientation="Vertical">
+    								<TextBlock x:Name="Title" FontSize="14" Text="{Binding Title}"/>
+    								<TextBlock x:Name="Date" Text="{Binding Date}" Margin="0,0,0,10"/>
+    								<TextBlock x:Name="Summary" TextWrapping="Wrap" Text="{Binding Description}" MaxWidth="1023" Margin="0,0,0,10"/>
+    								<HyperlinkButton NavigateUri="{Binding Link}" TargetName="_new"><TextBlock x:Name="Link" Text="{Binding Link}"/></HyperlinkButton>
+    								<Rectangle Height="2" Fill="Beige"/>
+    							</StackPanel>			
+    						</DataTemplate>			
+    					</ListBox.ItemTemplate>
+    				</ListBox>
     			</Grid>
     		</sdk:TabItem>
     		<sdk:TabItem x:Name="Manager" Header="Manage your feeds">
@@ -46,11 +65,9 @@
     					<ColumnDefinition Width="0.351*"/>
     					<ColumnDefinition Width="0.113*"/>
     				</Grid.ColumnDefinitions>
-    				<ListBox Margin="26,33,14,11" Grid.Column="1" Grid.RowSpan="3" ItemsSource="{Binding SubChannels}"/>
-    				<ListBox Margin="13,33,17,11" Grid.Column="3" Grid.RowSpan="3" ItemsSource="{Binding UnsubChannels}"/>
     				<Grid Grid.Column="2" Margin="8,8,7,12" Grid.Row="1">
-    					<Button Content="&lt;&lt;" Height="39" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" Width="27"/>
-    					<Button Content="&gt;&gt;" Margin="0,60,0,0" Width="27" Height="39" VerticalAlignment="Top"/>
+    					<Button Content="&lt;&lt;" Height="39" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" Width="27" Command="{Binding Subscribe}"/>
+    					<Button Content="&gt;&gt;" Margin="0,60,0,0" Width="27" Height="39" VerticalAlignment="Top" Command="{Binding Unsubscribe}"/>
     				</Grid>
     				<Grid Margin="26,83,-29,0" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="2">
     					<Grid.ColumnDefinitions>
@@ -62,6 +79,20 @@
     				</Grid>
     				<sdk:Label Height="22" Margin="26,7,14,0" VerticalAlignment="Top" Content="Subscribed" Grid.Column="1"/>
     				<sdk:Label Height="20" Margin="13,9,19,0" VerticalAlignment="Top" Content="Un-subscribed" Grid.Column="3"/>
+    				<sdk:DataGrid Grid.Column="1" Margin="26,33,14,11" Grid.RowSpan="3" ItemsSource="{Binding SubChannels}" SelectedItem="{Binding SelectedChannels, Mode=TwoWay}" IsReadOnly="True" AreRowGroupHeadersFrozen="False" AutoGenerateColumns="False" HeadersVisibility="None" GridLinesVisibility="None" SelectionMode="Single">
+    					<sdk:DataGrid.Columns>
+    						<sdk:DataGridTextColumn Binding="{Binding Title}"/>
+    						<sdk:DataGridTextColumn Binding="{Binding Description}"/>
+    						<sdk:DataGridTextColumn Binding="{Binding Link}"/>
+    					</sdk:DataGrid.Columns>
+    				</sdk:DataGrid>
+    				<sdk:DataGrid Grid.Column="3" Margin="13,32,17,11" Grid.RowSpan="3" ItemsSource="{Binding UnsubChannels}" SelectedItem="{Binding SelectedChannels, Mode=TwoWay}" IsReadOnly="True" AreRowGroupHeadersFrozen="False" AutoGenerateColumns="False" HeadersVisibility="None" GridLinesVisibility="None" SelectionMode="Single">
+    					<sdk:DataGrid.Columns>
+    						<sdk:DataGridTextColumn Binding="{Binding Title}"/>
+    						<sdk:DataGridTextColumn Binding="{Binding Description}"/>
+    						<sdk:DataGridTextColumn Binding="{Binding Link}"/>
+    					</sdk:DataGrid.Columns>
+    				</sdk:DataGrid>
     			</Grid>
     		</sdk:TabItem>
     	</sdk:TabControl>

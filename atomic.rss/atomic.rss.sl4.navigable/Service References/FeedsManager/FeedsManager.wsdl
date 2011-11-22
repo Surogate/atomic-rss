@@ -4,7 +4,7 @@
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:48655/Services/FeedsManager.svc?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:48655/Services/FeedsManager.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="http://localhost:48655/Services/FeedsManager.svc?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://localhost:48655/Services/FeedsManager.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/atomic.rss.Web.Models" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IFeedsManager_LoadArticles_InputMessage">
@@ -31,11 +31,47 @@
   <wsdl:message name="IFeedsManager_SetArticlesReadForUser_OutputMessage">
     <wsdl:part name="parameters" element="tns:SetArticlesReadForUserResponse" />
   </wsdl:message>
+  <wsdl:message name="IFeedsManager_SetAllArticlesReadForUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetAllArticlesReadForUser" />
+  </wsdl:message>
+  <wsdl:message name="IFeedsManager_SetAllArticlesReadForUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetAllArticlesReadForUserResponse" />
+  </wsdl:message>
   <wsdl:message name="IFeedsManager_GetUserChannels_InputMessage">
     <wsdl:part name="parameters" element="tns:GetUserChannels" />
   </wsdl:message>
   <wsdl:message name="IFeedsManager_GetUserChannels_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetUserChannelsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFeedsManager_GetChannelsWithoutUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetChannelsWithoutUser" />
+  </wsdl:message>
+  <wsdl:message name="IFeedsManager_GetChannelsWithoutUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetChannelsWithoutUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFeedsManager_GetArticlesUnread_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetArticlesUnread" />
+  </wsdl:message>
+  <wsdl:message name="IFeedsManager_GetArticlesUnread_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetArticlesUnreadResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFeedsManager_GetArticlesReaded_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetArticlesReaded" />
+  </wsdl:message>
+  <wsdl:message name="IFeedsManager_GetArticlesReaded_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetArticlesReadedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFeedsManager_DestroyChannelsRelation_InputMessage">
+    <wsdl:part name="parameters" element="tns:DestroyChannelsRelation" />
+  </wsdl:message>
+  <wsdl:message name="IFeedsManager_DestroyChannelsRelation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DestroyChannelsRelationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFeedsManager_DestroyArticlesRelation_InputMessage">
+    <wsdl:part name="parameters" element="tns:DestroyArticlesRelation" />
+  </wsdl:message>
+  <wsdl:message name="IFeedsManager_DestroyArticlesRelation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DestroyArticlesRelationResponse" />
   </wsdl:message>
   <wsdl:portType name="IFeedsManager">
     <wsdl:operation name="LoadArticles">
@@ -54,9 +90,33 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IFeedsManager/SetArticlesReadForUser" message="tns:IFeedsManager_SetArticlesReadForUser_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IFeedsManager/SetArticlesReadForUserResponse" message="tns:IFeedsManager_SetArticlesReadForUser_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="SetAllArticlesReadForUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFeedsManager/SetAllArticlesReadForUser" message="tns:IFeedsManager_SetAllArticlesReadForUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFeedsManager/SetAllArticlesReadForUserResponse" message="tns:IFeedsManager_SetAllArticlesReadForUser_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetUserChannels">
       <wsdl:input wsaw:Action="http://tempuri.org/IFeedsManager/GetUserChannels" message="tns:IFeedsManager_GetUserChannels_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IFeedsManager/GetUserChannelsResponse" message="tns:IFeedsManager_GetUserChannels_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetChannelsWithoutUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFeedsManager/GetChannelsWithoutUser" message="tns:IFeedsManager_GetChannelsWithoutUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFeedsManager/GetChannelsWithoutUserResponse" message="tns:IFeedsManager_GetChannelsWithoutUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetArticlesUnread">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFeedsManager/GetArticlesUnread" message="tns:IFeedsManager_GetArticlesUnread_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFeedsManager/GetArticlesUnreadResponse" message="tns:IFeedsManager_GetArticlesUnread_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetArticlesReaded">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFeedsManager/GetArticlesReaded" message="tns:IFeedsManager_GetArticlesReaded_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFeedsManager/GetArticlesReadedResponse" message="tns:IFeedsManager_GetArticlesReaded_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DestroyChannelsRelation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFeedsManager/DestroyChannelsRelation" message="tns:IFeedsManager_DestroyChannelsRelation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFeedsManager/DestroyChannelsRelationResponse" message="tns:IFeedsManager_DestroyChannelsRelation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DestroyArticlesRelation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFeedsManager/DestroyArticlesRelation" message="tns:IFeedsManager_DestroyArticlesRelation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFeedsManager/DestroyArticlesRelationResponse" message="tns:IFeedsManager_DestroyArticlesRelation_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IFeedsManager" type="tns:IFeedsManager">
@@ -97,8 +157,62 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="SetAllArticlesReadForUser">
+      <soap:operation soapAction="http://tempuri.org/IFeedsManager/SetAllArticlesReadForUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetUserChannels">
       <soap:operation soapAction="http://tempuri.org/IFeedsManager/GetUserChannels" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChannelsWithoutUser">
+      <soap:operation soapAction="http://tempuri.org/IFeedsManager/GetChannelsWithoutUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetArticlesUnread">
+      <soap:operation soapAction="http://tempuri.org/IFeedsManager/GetArticlesUnread" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetArticlesReaded">
+      <soap:operation soapAction="http://tempuri.org/IFeedsManager/GetArticlesReaded" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DestroyChannelsRelation">
+      <soap:operation soapAction="http://tempuri.org/IFeedsManager/DestroyChannelsRelation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DestroyArticlesRelation">
+      <soap:operation soapAction="http://tempuri.org/IFeedsManager/DestroyArticlesRelation" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

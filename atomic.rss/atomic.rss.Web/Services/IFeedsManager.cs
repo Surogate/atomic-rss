@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using atomic.rss.Web.Models;
 
 namespace atomic.rss.Web.Services
 {
@@ -24,6 +25,24 @@ namespace atomic.rss.Web.Services
         void SetArticlesReadForUser(int id_article, string user);
 
         [OperationContract]
-        IEnumerable<string> GetUserChannels(string user);
+        void SetAllArticlesReadForUser(string user);
+
+        [OperationContract]
+        IEnumerable<Item> GetUserChannels(string user);
+
+        [OperationContract]
+        IEnumerable<Item> GetChannelsWithoutUser(string user);
+
+        [OperationContract]
+        IEnumerable<Item> GetArticlesUnread(string user);
+
+        [OperationContract]
+        IEnumerable<Item> GetArticlesReaded(string user);
+
+        [OperationContract]
+        void DestroyChannelsRelation(int id_channels);
+
+        [OperationContract]
+        void DestroyArticlesRelation(int id_channels);
     }
 }

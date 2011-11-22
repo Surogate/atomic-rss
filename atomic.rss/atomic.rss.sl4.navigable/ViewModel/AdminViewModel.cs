@@ -199,16 +199,56 @@ namespace atomic.rss.sl4.navigable.ViewModel
         {
             try
             {
-                if (SelectedChannels != null)
-                {
-                    ChannelsSet.Remove(SelectedChannels);
-                    OnPropertyChanged("ChannelsSet");
-                }
+                FeedsManager.FeedsManagerClient clt = new FeedsManager.FeedsManagerClient();
+                clt.DestroyArticlesRelationAsync(SelectedChannels.Id);
+                clt.DestroyArticlesRelationCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clt_DestroyArticlesRelationCompleted);
+                
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.StackTrace);
             }
+        }
+
+        void clt_DestroyArticlesRelationCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                try
+                {
+                    FeedsManager.FeedsManagerClient clt = new FeedsManager.FeedsManagerClient();
+                    clt.DestroyChannelsRelationAsync(SelectedChannels.Id);
+                    clt.DestroyChannelsRelationCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clt_DestroyChannelsRelationCompleted);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+            else
+                Debug.WriteLine("Error deleteChannels : " + e.Error.StackTrace);
+        }
+
+        // DELETE CHANNELS HERE !
+        void clt_DestroyChannelsRelationCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                try
+                {
+                    if (SelectedChannels != null)
+                    {
+                        ChannelsSet.Remove(SelectedChannels);
+                        OnPropertyChanged("ChannelsSet");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+            else
+                Debug.WriteLine("Error deleteChannels : " + e.Error.StackTrace);
         }
 
         private void submit()
