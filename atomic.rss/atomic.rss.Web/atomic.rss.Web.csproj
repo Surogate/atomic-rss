@@ -96,6 +96,7 @@
       <DependentUpon>AtomicRssDatabase.edmx</DependentUpon>
     </Compile>
     <Compile Include="Mgr\ParserRSS.cs" />
+    <Compile Include="Models\Item.cs" />
     <Compile Include="Models\CustomRoleProvider.cs" />
     <Compile Include="Models\NewUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

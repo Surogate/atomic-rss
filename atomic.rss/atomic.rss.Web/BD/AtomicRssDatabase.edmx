@@ -224,8 +224,8 @@
           <End Type="AtomicRssDatabase.Channels" Role="Channels" Multiplicity="*" />
         </Association>
         <Association Name="UsersArticles">
-          <End Type="AtomicRssDatabase.Users" Role="Users" Multiplicity="*" />
-          <End Type="AtomicRssDatabase.Articles" Role="Articles" Multiplicity="*" />
+          <End Type="AtomicRssDatabase.Users" Role="Users" Multiplicity="*" ></End>
+          <End Type="AtomicRssDatabase.Articles" Role="Articles" Multiplicity="*" ></End>
         </Association>
       </Schema>
     </edmx:ConceptualModels>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:48655/Services/FeedsManager.svc?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://localhost:48655/Services/FeedsManager.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/atomic.rss.Web.Models" />
   <xs:element name="LoadArticles">
     <xs:complexType>
       <xs:sequence />
@@ -50,6 +50,18 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
+  <xs:element name="SetAllArticlesReadForUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="user" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetAllArticlesReadForUserResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
   <xs:element name="GetUserChannels">
     <xs:complexType>
       <xs:sequence>
@@ -60,8 +72,74 @@
   <xs:element name="GetUserChannelsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetUserChannelsResult" nillable="true" type="q1:ArrayOfstring" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/atomic.rss.Web.Models" minOccurs="0" name="GetUserChannelsResult" nillable="true" type="q1:ArrayOfItem" />
       </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetChannelsWithoutUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="user" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetChannelsWithoutUserResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/atomic.rss.Web.Models" minOccurs="0" name="GetChannelsWithoutUserResult" nillable="true" type="q2:ArrayOfItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetArticlesUnread">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="user" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetArticlesUnreadResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/atomic.rss.Web.Models" minOccurs="0" name="GetArticlesUnreadResult" nillable="true" type="q3:ArrayOfItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetArticlesReaded">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="user" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetArticlesReadedResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/atomic.rss.Web.Models" minOccurs="0" name="GetArticlesReadedResult" nillable="true" type="q4:ArrayOfItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DestroyChannelsRelation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id_channels" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DestroyChannelsRelationResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DestroyArticlesRelation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id_channels" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DestroyArticlesRelationResponse">
+    <xs:complexType>
+      <xs:sequence />
     </xs:complexType>
   </xs:element>
 </xs:schema>

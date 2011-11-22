@@ -11,6 +11,8 @@ using System.ServiceModel.Syndication;
 using System.Xml;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
+using atomic.rss.Web.Models;
+using System.Data;
 
 namespace atomic.rss.Web.Services
 {
@@ -31,6 +33,7 @@ namespace atomic.rss.Web.Services
                         XmlReader read = XmlReader.Create(chan.Link);
                         SyndicationFeed feeds = SyndicationFeed.Load(read);
                         read.Close();
+                        Debug.WriteLine("LoadArticles : " + chan.Link);
                         foreach (SyndicationItem article in feeds.Items)
                         {
                             BD.Articles a = new BD.Articles();
@@ -39,8 +42,12 @@ namespace atomic.rss.Web.Services
                             a.Description = article.Summary.Text;
                             a.GUID = "0000";
                             a.Link = article.Id;
-                            if ((from el in chan.Articles where el.Title == a.Title select el).FirstOrDefault() == null)
+                            BD.Articles exist = (from el in chan.Articles where el.Link == a.Link select el).FirstOrDefault();
+                            if (exist != null)
+                                Debug.WriteLine("Test : " + a.Link + " exist : " + exist.Link);
+                            if (exist == null)
                             {
+                                Debug.WriteLine("Adding new article : " + a.Title);
                                 chan.Articles.Add(a);
                                 context.ArticlesSet.AddObject(a);
                             }
@@ -144,8 +151,7 @@ namespace atomic.rss.Web.Services
             }
         }
 
-
-        public IEnumerable<string> GetUserChannels(string user)
+        public void SetAllArticlesReadForUser(string user)
         {
             try
             {
@@ -154,10 +160,40 @@ namespace atomic.rss.Web.Services
                     BD.Users u = (from el in context.UsersSet where el.Email == user select el).FirstOrDefault();
                     if (u != null)
                     {
-                        ObservableCollection<string> channels = new ObservableCollection<string>();
+                        foreach (BD.Channels chan in context.ChannelsSet)
+                        {
+                            if (chan.Users.Contains(u))
+                            {
+                                foreach (BD.Articles article in chan.Articles)
+                                {
+                                    if (!article.Users.Contains(u))
+                                        article.Users.Add(u);
+                                }
+                            }
+                        }
+                        context.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message + " Stacktrace : " + e.StackTrace);
+            }
+        }
+
+        public IEnumerable<Item> GetUserChannels(string user)
+        {
+            try
+            {
+                using (BD.AtomicRssDatabaseContainer context = new BD.AtomicRssDatabaseContainer())
+                {
+                    BD.Users u = (from el in context.UsersSet where el.Email == user select el).FirstOrDefault();
+                    if (u != null)
+                    {
+                        ObservableCollection<Item> channels = new ObservableCollection<Item>();
                         foreach (BD.Channels chan in context.ChannelsSet)
                             if (chan.Users.Contains(u))
-                                channels.Add(chan.Title);
+                                channels.Add(new Item() { Id = chan.Id, Title = chan.Title, Description = chan.Description, Link = chan.Link, Date = chan.Date});
                         return channels;
                     }
                 }
@@ -167,6 +203,130 @@ namespace atomic.rss.Web.Services
                 Debug.WriteLine(e.StackTrace);
             }
             return null;
+        }
+
+        public IEnumerable<Item> GetChannelsWithoutUser(string user)
+        {
+            try
+            {
+                using (BD.AtomicRssDatabaseContainer context = new BD.AtomicRssDatabaseContainer())
+                {
+                    BD.Users u = (from el in context.UsersSet where el.Email == user select el).FirstOrDefault();
+                    if (u != null)
+                    {
+                        ObservableCollection<Item> channels = new ObservableCollection<Item>();
+                        foreach (BD.Channels chan in context.ChannelsSet)
+                            if (!chan.Users.Contains(u))
+                                channels.Add(new Item() { Id = chan.Id, Title = chan.Title, Description = chan.Description, Link = chan.Link, Date = chan.Date});
+                        return channels;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+            }
+            return null;
+        }
+
+
+        public IEnumerable<Item> GetArticlesUnread(string user)
+        {
+            try
+            {
+                using (BD.AtomicRssDatabaseContainer context = new BD.AtomicRssDatabaseContainer())
+                {
+                    BD.Users u = (from el in context.UsersSet where el.Email == user select el).FirstOrDefault();
+                    if (u != null)
+                    {
+                        ObservableCollection<Item> articles = new ObservableCollection<Item>();
+                        foreach (BD.Channels chan in context.ChannelsSet)
+                            if (chan.Users.Contains(u))
+                            {
+                                foreach (BD.Articles article in chan.Articles)
+                                    if (!article.Users.Contains(u))
+                                        articles.Add(new Item() { Id = article.Id, Title = article.Title, Description = article.Description, Link = article.Link, Date = article.Date});
+                            }
+                        return articles;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+            }
+            return null;
+        }
+
+        public IEnumerable<Item> GetArticlesReaded(string user)
+        {
+            try
+            {
+                using (BD.AtomicRssDatabaseContainer context = new BD.AtomicRssDatabaseContainer())
+                {
+                    BD.Users u = (from el in context.UsersSet where el.Email == user select el).FirstOrDefault();
+                    if (u != null)
+                    {
+                        ObservableCollection<Item> articles = new ObservableCollection<Item>();
+                        foreach (BD.Channels chan in context.ChannelsSet)
+                            if (chan.Users.Contains(u))
+                            {
+                                foreach (BD.Articles article in chan.Articles)
+                                    if (article.Users.Contains(u))
+                                        articles.Add(new Item() { Id = article.Id, Title = article.Title, Description = article.Description, Link = article.Link, Date = article.Date});
+                            }
+                        return articles;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+            }
+            return null;
+        }
+
+        [RequiresRole("Admin", ErrorMessage = @"You must be part of the administration team.")]
+        public void DestroyChannelsRelation(int id_channels)
+        {
+            try
+            {
+                using (BD.AtomicRssDatabaseContainer context = new BD.AtomicRssDatabaseContainer())
+                {
+                    BD.Channels channel = (from el in context.ChannelsSet where el.Id == id_channels select el).FirstOrDefault();
+                    if (channel != null)
+                        channel.Users.Clear();
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+        [RequiresRole("Admin", ErrorMessage = @"You must be part of the administration team.")]
+        public void DestroyArticlesRelation(int id_channels)
+        {
+            try
+            {
+                using (BD.AtomicRssDatabaseContainer context = new BD.AtomicRssDatabaseContainer())
+                {
+                    BD.Channels channel = (from el in context.ChannelsSet where el.Id == id_channels select el).FirstOrDefault();
+                    if (channel != null)
+                    {
+                        foreach (BD.Articles art in channel.Articles)
+                        {
+                            art.Users.Clear();
+                        }
+                    }
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
         }
     }
 }
