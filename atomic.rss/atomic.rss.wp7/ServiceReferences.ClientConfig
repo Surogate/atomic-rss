@@ -3,12 +3,10 @@
         <bindings>
           <basicHttpBinding>
             <binding name="BasicHttpBinding_AuthenticationServiceSoap" maxBufferSize="2147483647"
-                     enableHttpCookieContainer="true"
                 maxReceivedMessageSize="2147483647">
               <security mode="None" />
             </binding>
             <binding name="BasicHttpBinding_AuthentificationDomainServiceSoap" maxBufferSize="2147483647"
-                     enableHttpCookieContainer="true"
                 maxReceivedMessageSize="2147483647">
               <security mode="None" />
             </binding>
@@ -22,3 +20,4 @@
         </client>
     </system.serviceModel>
 </configuration>
+<!-- TO ADD AFTER GET OTHER SERVICE enableHttpCookieContainer="true"-->

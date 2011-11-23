@@ -5,6 +5,7 @@ using System.Text;
 using atomic.rss.wpf.Utils;
 using System.Diagnostics;
 using System.Windows.Input;
+using System.Windows;
 
 namespace atomic.rss.wpf.ViewModel
 {
@@ -13,8 +14,11 @@ namespace atomic.rss.wpf.ViewModel
         #region Attributes
         private string login_;
         private string password_;
+        private Visibility feeds_view_;
+        private Visibility login_view_;
 
         private AuthentificationService.AuthentificationDomainServiceSoapClient authClient_;
+        private AuthentificationService.User currentUser_;
         private ICommand connect_;
         #endregion
 
@@ -51,6 +55,41 @@ namespace atomic.rss.wpf.ViewModel
             }
 
         }
+
+        public Visibility LoginViewVisibility
+        {
+            get
+            {
+                return (login_view_);
+            }
+            set
+            {
+                if (login_view_ != value)
+                    login_view_ = value;
+                OnPropertyChanged("LoginViewVisibility");
+            }
+        }
+
+        public Visibility FeedsViewVisibility
+        {
+            get
+            {
+                return (feeds_view_);
+            }
+            set
+            {
+                if (feeds_view_ != value)
+                    feeds_view_ = value;
+                OnPropertyChanged("FeedsViewVisibility");
+            }
+        }
+
+        public FeedsViewModel FeedsVM
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region Commands
@@ -70,7 +109,10 @@ namespace atomic.rss.wpf.ViewModel
         #region Constructors
         public MainViewModel()
         {
+            FeedsVM = new FeedsViewModel();
             connect_ = new RelayCommand(param => this.connect());
+            login_view_ = Visibility.Visible;
+            feeds_view_ = Visibility.Hidden;
         }
         #endregion
 
@@ -83,7 +125,12 @@ namespace atomic.rss.wpf.ViewModel
                 AuthentificationService.QueryResultOfUser result = authClient_.Login(login_, password_, true, "");
                 if (result.RootResults != null && result.RootResults.Count() > 0)
                 {
-                    Debug.WriteLine("You're logged in !"); 
+                    currentUser_ = result.RootResults.First();
+                    Debug.WriteLine("You're logged in ! " + currentUser_.Name);
+                    FeedsVM.CurrentUser = currentUser_;
+                    FeedsVM.init();
+                    LoginViewVisibility = Visibility.Hidden;
+                    FeedsViewVisibility = Visibility.Visible;
                 }
             }
             catch (Exception e)

@@ -63,11 +63,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\FeedsManager\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Utils\BasicViewModel.cs" />
     <Compile Include="Utils\CookieManagerBehaviorExtension.cs" />
     <Compile Include="Utils\CookieManagerEndpointBehavior.cs" />
     <Compile Include="Utils\CookieManagerMessageInspector.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
+    <Compile Include="ViewModel\FeedsViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -128,12 +134,26 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\AuthentificationService\AuthentificationDomainService.wsdl" />
+    <None Include="Service References\FeedsManager\atomic.rss.wpf.FeedsManager.Item.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\FeedsManager\FeedsManager.wsdl" />
+    <None Include="Service References\FeedsManager\FeedsManager.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\FeedsManager\FeedsManager1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\FeedsManager\FeedsManager2.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\AuthentificationService\" />
+    <WCFMetadataStorage Include="Service References\FeedsManager\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\AuthentificationService\atomic-rss-Web-Services-AuthentificationDomainService.disco" />
@@ -152,6 +172,21 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="View\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\FeedsManager\FeedsManager.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\FeedsManager\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\FeedsManager\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\FeedsManager\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
