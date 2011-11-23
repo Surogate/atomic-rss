@@ -9,17 +9,13 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using atomic.rss.sl4.navigable.Utils;
-using System.ServiceModel.DomainServices.Client;
 using System.Diagnostics;
-using System.Data.Services.Client;
 using System.Collections.ObjectModel;
-using atomic.rss.Web.Services;
-using atomic.rss.Web.BD;
-using atomic.rss.sl4.navigable.FeedsManager;
+using atomic.rss.wp7.Utils;
+using atomic.rss.wp7.FeedsManager;
 
 
-namespace atomic.rss.sl4.navigable.ViewModel
+namespace atomic.rss.wp7.ViewModel
 {
     public class FeedsViewModel : BasicViewModel
     {
@@ -28,33 +24,21 @@ namespace atomic.rss.sl4.navigable.ViewModel
 
         #region Attributes
         private ObservableCollection<Item> unread_articles_set_;
-        private ObservableCollection<Item> readed_articles_set_;
         private ObservableCollection<Item> subscribed_chan_set_;
         private ObservableCollection<Item> unsub_chan_set_;
         private Item selected_article_;
         private Item selected_channel_;
         private string uri_channel_;
+        private Uri article_link_;
 
-        private ICommand refresh_;
-        private ICommand add_channels_;
-        private ICommand subscribe_chan_;
-        private ICommand unsub_chan_;
-        private ICommand set_all_read_;
         #endregion
 
         #region Constructors
         public FeedsViewModel()
         {
-            setChannels();
-            setArticles();
             selected_article_ = null;
             selected_channel_ = null;
             uri_channel_ = null;
-            refresh_ = new RelayCommand(param => this.refresh());
-            add_channels_ = new RelayCommand(param => this.addChannels());
-            subscribe_chan_ = new RelayCommand(param => this.subscribe());
-            unsub_chan_ = new RelayCommand(param => this.unsubscribe());
-            set_all_read_ = new RelayCommand(param => this.setAllRead());
         }
         #endregion
 
@@ -69,19 +53,6 @@ namespace atomic.rss.sl4.navigable.ViewModel
             {
                 unread_articles_set_ = value;
                 OnPropertyChanged("UnreadArticles");
-            }
-        }
-
-        public ObservableCollection<Item> Archives
-        {
-            get
-            {
-                return readed_articles_set_;
-            }
-            set
-            {
-                readed_articles_set_ = value;
-                OnPropertyChanged("Archives");
             }
         }
 
@@ -119,9 +90,14 @@ namespace atomic.rss.sl4.navigable.ViewModel
             }
             set
             {
-                selected_article_ = value;
-                setArticleRead();
-                OnPropertyChanged("SelectedArticles");
+                if (selected_article_ != value)
+                {
+                    selected_article_ = value;
+                    if (MainVM.SelectedTab == 1)
+                        MainVM.SelectedTab = 2;
+                    setArticleRead();
+                    OnPropertyChanged("SelectedArticles");
+                }
             }
         }
 
@@ -133,8 +109,18 @@ namespace atomic.rss.sl4.navigable.ViewModel
             }
             set
             {
-                selected_channel_ = value;
-                OnPropertyChanged("SelectedChannels");
+                if (selected_channel_ != value)
+                {
+                    selected_channel_ = value;
+                    if (selected_channel_ != null)
+                    {
+                        if (UnsubChannels.Contains(selected_channel_))
+                            subscribe();
+                        if (SubChannels.Contains(selected_channel_))
+                            unsubscribe();
+                    }
+                    OnPropertyChanged("SelectedChannels");
+                }
             }
         }
 
@@ -150,87 +136,57 @@ namespace atomic.rss.sl4.navigable.ViewModel
                 OnPropertyChanged("UriChannels");
             }
         }
+
+        public AuthentificationService.User CurrentUser
+        {
+            get;
+            set;
+        }
+
+        public Uri ArticleLink
+        {
+            get
+            {
+                return (article_link_);
+            }
+            set
+            {
+                article_link_ = value;
+                OnPropertyChanged("ArticleLink");
+            }
+        }
+
+        public MainViewModel MainVM
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region Commands
-        public ICommand Refresh
-        {
-            get
-            {
-                return (refresh_);
-            }
-            set
-            {
-
-            }
-        }
-
-        public ICommand AddChannels
-        {
-            get
-            {
-                return (add_channels_);
-            }
-            set
-            {
-
-            }
-        }
-
-        public ICommand Subscribe
-        {
-            get
-            {
-                return (subscribe_chan_);
-            }
-            set
-            {
-
-            }
-        }
-
-        public ICommand Unsubscribe
-        {
-            get
-            {
-                return (unsub_chan_);
-            }
-            set
-            {
-
-            }
-        }
-
-        public ICommand AllRead
-        {
-            get
-            {
-                return (set_all_read_);
-            }
-            set
-            {
-
-            }
-        }
         #endregion
 
         #region Methods
+        public void init()
+        {
+            setChannels();
+            setArticles();
+        }
+
         private void updateProperties()
         {
             OnPropertyChanged("UnsubChannels");
             OnPropertyChanged("SubChannels");
-            OnPropertyChanged("Archives");
             OnPropertyChanged("UnreadArticles");
         }
 
-        private void setAllRead()
+        public void setAllRead()
         {
             try
             {
-                if (Archives.Contains(SelectedArticles))
-                    return;
                 FeedsManager.FeedsManagerClient clt = new FeedsManagerClient();
-                clt.SetAllArticlesReadForUserAsync(WebContext.Current.Authentication.User.Identity.Name);
+                clt.SetAllArticlesReadForUserAsync(CurrentUser.Name);
                 clt.SetAllArticlesReadForUserCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clt_SetAllArticlesReadForUserCompleted);
             }
             catch (Exception e)
@@ -254,10 +210,10 @@ namespace atomic.rss.sl4.navigable.ViewModel
         {
             try
             {
-                if (Archives.Contains(SelectedArticles))
+                if (SelectedArticles == null)
                     return;
                 FeedsManager.FeedsManagerClient clt = new FeedsManagerClient();
-                clt.SetArticlesReadForUserAsync(SelectedArticles.Id, WebContext.Current.Authentication.User.Identity.Name);
+                clt.SetArticlesReadForUserAsync(SelectedArticles.Id, CurrentUser.Name);
                 clt.SetArticlesReadForUserCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clt_SetArticlesReadForUserCompleted);
             }
             catch (Exception e)
@@ -274,7 +230,7 @@ namespace atomic.rss.sl4.navigable.ViewModel
                 setArticles();
                 updateProperties();
             }
-            SelectedArticles = null;
+            //SelectedArticles = null;
         }
 
         private void setArticles()
@@ -282,9 +238,7 @@ namespace atomic.rss.sl4.navigable.ViewModel
             try
             {
                 FeedsManager.FeedsManagerClient clt = new FeedsManager.FeedsManagerClient();
-                clt.GetArticlesReadedAsync(WebContext.Current.Authentication.User.Identity.Name);
-                clt.GetArticlesReadedCompleted += new EventHandler<GetArticlesReadedCompletedEventArgs>(clt_GetArticlesReadedCompleted);
-                clt.GetArticlesUnreadAsync(WebContext.Current.Authentication.User.Identity.Name);
+                clt.GetArticlesUnreadAsync(CurrentUser.Name);
                 clt.GetArticlesUnreadCompleted += new EventHandler<GetArticlesUnreadCompletedEventArgs>(clt_GetArticlesUnreadCompleted);
             }
             catch (Exception e)
@@ -298,16 +252,15 @@ namespace atomic.rss.sl4.navigable.ViewModel
             if (e.Error == null)
             {
                 if (e.Result != null)
+                {
+                    if (SelectedArticles != null)
+                    {
+                        ArticleLink = new Uri(SelectedArticles.Link);
+                        Debug.WriteLine(ArticleLink);
+                    }
                     UnreadArticles = e.Result;
-            }
-        }
-
-        void clt_GetArticlesReadedCompleted(object sender, GetArticlesReadedCompletedEventArgs e)
-        {
-            if (e.Error == null)
-            {
-                if (e.Result != null)
-                    Archives = e.Result;
+                    SelectedArticles = null;
+                }
             }
         }
 
@@ -316,9 +269,9 @@ namespace atomic.rss.sl4.navigable.ViewModel
             try
             {
                 FeedsManager.FeedsManagerClient clt = new FeedsManager.FeedsManagerClient();
-                clt.GetUserChannelsAsync(WebContext.Current.Authentication.User.Identity.Name);
+                clt.GetUserChannelsAsync(CurrentUser.Name);
                 clt.GetUserChannelsCompleted += new EventHandler<FeedsManager.GetUserChannelsCompletedEventArgs>(clt_GetUserChannelsCompleted);
-                clt.GetChannelsWithoutUserAsync(WebContext.Current.Authentication.User.Identity.Name);
+                clt.GetChannelsWithoutUserAsync(CurrentUser.Name);
                 clt.GetChannelsWithoutUserCompleted += new EventHandler<GetChannelsWithoutUserCompletedEventArgs>(clt_GetChannelsWithoutUserCompleted);
             }
             catch (Exception e)
@@ -345,7 +298,7 @@ namespace atomic.rss.sl4.navigable.ViewModel
             }
         }
 
-        private void refresh()
+        public void refresh()
         {
             try
             {
@@ -378,7 +331,7 @@ namespace atomic.rss.sl4.navigable.ViewModel
                 if (uri_channel_ != null)
                 {
                     FeedsManager.FeedsManagerClient clt = new FeedsManager.FeedsManagerClient();
-                    clt.AddChannelsAsync(WebContext.Current.Authentication.User.Identity.Name, uri_channel_);
+                    clt.AddChannelsAsync(CurrentUser.Name, uri_channel_);
                     clt.AddChannelsCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clt_AddChannelsCompleted);
                     refresh();
                 }
@@ -407,7 +360,7 @@ namespace atomic.rss.sl4.navigable.ViewModel
                 if (SelectedChannels != null)
                 {
                     FeedsManager.FeedsManagerClient clt = new FeedsManager.FeedsManagerClient();
-                    clt.AddChannelsAsync(WebContext.Current.Authentication.User.Identity.Name, SelectedChannels.Link);
+                    clt.AddChannelsAsync(CurrentUser.Name, SelectedChannels.Link);
                     clt.AddChannelsCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clt_AddChannelsCompleted);
                 }
                 SelectedChannels = null;
@@ -425,7 +378,7 @@ namespace atomic.rss.sl4.navigable.ViewModel
                 if (SelectedChannels != null)
                 {
                     FeedsManager.FeedsManagerClient clt = new FeedsManager.FeedsManagerClient();
-                    clt.RemoveChannelsFromUserAsync(WebContext.Current.Authentication.User.Identity.Name, SelectedChannels.Id);
+                    clt.RemoveChannelsFromUserAsync(CurrentUser.Name, SelectedChannels.Id);
                     clt.RemoveChannelsFromUserCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clt_RemoveChannelsFromUserCompleted);
                 }
                 SelectedChannels = null;

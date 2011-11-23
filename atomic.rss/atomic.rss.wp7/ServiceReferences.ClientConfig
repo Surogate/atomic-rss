@@ -1,23 +1,29 @@
 ﻿<configuration>
     <system.serviceModel>
         <bindings>
-          <basicHttpBinding>
-            <binding name="BasicHttpBinding_AuthenticationServiceSoap" maxBufferSize="2147483647"
-                maxReceivedMessageSize="2147483647">
-              <security mode="None" />
-            </binding>
-            <binding name="BasicHttpBinding_AuthentificationDomainServiceSoap" maxBufferSize="2147483647"
-                maxReceivedMessageSize="2147483647">
-              <security mode="None" />
-            </binding>
-          </basicHttpBinding>
+            <basicHttpBinding>
+                <binding name="BasicHttpBinding_AuthentificationDomainServiceSoap"
+                         enableHttpCookieContainer="true"
+                    maxBufferSize="2147483647" maxReceivedMessageSize="2147483647">
+                    <security mode="None" />
+                </binding>
+                <binding name="BasicHttpBinding_IFeedsManager" maxBufferSize="2147483647"
+                         enableHttpCookieContainer="true"
+                    maxReceivedMessageSize="2147483647">
+                    <security mode="None" />
+                </binding>
+            </basicHttpBinding>
         </bindings>
         <client>
             <endpoint address="http://localhost:48655/Services/atomic-rss-Web-Services-AuthentificationDomainService.svc/Soap"
                 binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_AuthentificationDomainServiceSoap"
                 contract="AuthentificationService.AuthentificationDomainServiceSoap"
                 name="BasicHttpBinding_AuthentificationDomainServiceSoap" />
+            <endpoint address="http://localhost:48655/Services/FeedsManager.svc"
+                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IFeedsManager"
+                contract="FeedsManager.IFeedsManager" name="BasicHttpBinding_IFeedsManager" />
         </client>
     </system.serviceModel>
 </configuration>
 <!-- TO ADD AFTER GET OTHER SERVICE enableHttpCookieContainer="true"-->
+<!-- If you have a probleme with anything delete all the services and add them again after rebooting your visualstudio in admin-->
