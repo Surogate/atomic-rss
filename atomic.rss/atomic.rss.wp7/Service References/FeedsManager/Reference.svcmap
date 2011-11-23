@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="fa26361c-e4d9-442e-9fb4-ddb6898afd8b" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.ObjectModel.ObservableCollection`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:48655/Services/FeedsManager.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="FeedsManager.disco" MetadataType="Disco" ID="c481cdbf-a3d0-44e8-8ee0-98efd3949194" SourceId="1" SourceUrl="http://localhost:48655/Services/FeedsManager.svc?disco" />
+    <MetadataFile FileName="FeedsManager.wsdl" MetadataType="Wsdl" ID="596cfef1-691a-4287-ad08-f3d471dd36a8" SourceId="1" SourceUrl="http://localhost:48655/Services/FeedsManager.svc?wsdl" />
+    <MetadataFile FileName="FeedsManager.xsd" MetadataType="Schema" ID="c257bd67-aa0c-45f5-b807-e2b69447c3e9" SourceId="1" SourceUrl="http://localhost:48655/Services/FeedsManager.svc?xsd=xsd1" />
+    <MetadataFile FileName="FeedsManager1.xsd" MetadataType="Schema" ID="6d7268ba-5d09-4182-a6e2-b4d8da50571e" SourceId="1" SourceUrl="http://localhost:48655/Services/FeedsManager.svc?xsd=xsd2" />
+    <MetadataFile FileName="FeedsManager2.xsd" MetadataType="Schema" ID="ab1213c0-69fa-4d81-8465-f25ebed4d33f" SourceId="1" SourceUrl="http://localhost:48655/Services/FeedsManager.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

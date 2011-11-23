@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:atomic_rss_wp7_ViewModel="clr-namespace:atomic.rss.wp7.ViewModel" 
     x:Class="atomic.rss.wp7.MainPage"
-    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -35,30 +35,31 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivot Control-->
-        <controls:Pivot Title="Atomic Rss">
+        <controls:Pivot Title="Atomic Rss" SelectedIndex="{Binding SelectedTab, Mode=TwoWay}">
             <!--Pivot item one-->
             <controls:PivotItem x:Name="LoginPage" Header="Login" Margin="12,29,12,-1">
                 <!--ContentPanel - place additional content here-->
-                <Grid x:Name="ContentPanel" Grid.Row="1" Margin="-480,0,0,0" HorizontalAlignment="Left" Width="432">
+                <Grid>
                     <TextBlock HorizontalAlignment="Left" Height="32" Margin="28,37,0,0" TextWrapping="Wrap" Text="Login" VerticalAlignment="Top" Width="105"/>
                     <TextBlock HorizontalAlignment="Left" Height="33" Margin="28,104,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="105"/>
                     <PasswordBox Height="70" Margin="152,86,67,0" VerticalAlignment="Top" Password="{Binding Password, Mode=TwoWay}"/>
                     <TextBox Height="71" Margin="152,17,67,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Login, Mode=TwoWay}"/>
                     <Button Content="Connect" HorizontalAlignment="Left" Height="69" Margin="8,188,0,0" VerticalAlignment="Top" Width="157" Command="{Binding Connect, Mode=OneTime}" />
+                    <Button Content="LogOut" Margin="184,188,115,0" Command="{Binding Unlog}" Height="69" VerticalAlignment="Top" />
                 </Grid>
             </controls:PivotItem>
 
             <!--Pivot item two-->
             <controls:PivotItem x:Name="News" Header="News">
                 <Grid>
-                	<ListBox>
+                	<ListBox ItemsSource="{Binding FeedsVM.UnreadArticles}" SelectedItem="{Binding FeedsVM.SelectedArticles, Mode=TwoWay}">
                 	<ListBox.ItemTemplate>
     						<DataTemplate>
     							<StackPanel Orientation="Vertical">
-				    				<TextBlock x:Name="Title" FontSize="14" Text="{Binding Title}"/>
+				    				<TextBlock x:Name="Title" Text="{Binding Title}" TextWrapping="Wrap"/>
 									<TextBlock x:Name="Date" Text="{Binding Date}" Margin="0,0,0,10"/>
-				    				<TextBlock x:Name="Summary" TextWrapping="Wrap" Text="{Binding Description}" MaxWidth="1018" Margin="0,0,0,10"/>
-									<HyperlinkButton NavigateUri="{Binding Link}" TargetName="_new"><TextBlock x:Name="Link" Text="{Binding Link}"/></HyperlinkButton>
+				    				<TextBlock x:Name="Summary" TextWrapping="Wrap" Text="{Binding Description}" Margin="0,0,0,10"/>
+									<HyperlinkButton NavigateUri="{Binding Link}" TargetName="_new"><TextBlock x:Name="Link" Text="{Binding Link}" TextWrapping="Wrap"/></HyperlinkButton>
 									<Rectangle Height="2" Fill="Beige"/>
 								</StackPanel>			
 							</DataTemplate>			
@@ -66,14 +67,50 @@
 						</ListBox>
                 </Grid>
             </controls:PivotItem>
+            <controls:PivotItem x:Name="View_Article" Header="Current News">
+            	<Grid>
+            		<phone:WebBrowser TabNavigation="Once" Source="{Binding FeedsVM.ArticleLink}"/>
+            	</Grid>
+            </controls:PivotItem>
             <controls:PivotItem x:Name="ManageFlux" Header="Manage Flux">
-                <Grid/>
+                <Grid>
+                	<Grid.RowDefinitions>
+                		<RowDefinition Height="0.488*"/>
+                		<RowDefinition Height="0.512*"/>
+                	</Grid.RowDefinitions>
+                	<ListBox ItemsSource="{Binding FeedsVM.SubChannels}" SelectedItem="{Binding FeedsVM.SelectedChannels, Mode=TwoWay}" Margin="0,35,0,0">
+						<ListBox.ItemTemplate>
+    						<DataTemplate>
+    							<StackPanel Orientation="Vertical">
+				    				<TextBlock x:Name="Title" Text="{Binding Title}" TextWrapping="Wrap"/>
+								</StackPanel>			
+							</DataTemplate>			
+						</ListBox.ItemTemplate>
+                	</ListBox>
+					<Rectangle Height="2" Fill="AliceBlue" VerticalAlignment="Bottom" d:LayoutOverrides="Height, VerticalMargin"/>
+                	<ListBox Grid.Row="1" ItemsSource="{Binding FeedsVM.UnsubChannels}" SelectedItem="{Binding FeedsVM.SelectedChannels, Mode=TwoWay}" Margin="0,0,0,41">
+                		<ListBox.ItemTemplate>
+    						<DataTemplate>
+    							<StackPanel Orientation="Vertical">
+				    				<TextBlock x:Name="Title" Text="{Binding Title}" TextWrapping="Wrap"/>
+								</StackPanel>			
+							</DataTemplate>			
+						</ListBox.ItemTemplate>
+					</ListBox>
+                	<TextBlock HorizontalAlignment="Left" Height="27" Margin="7,8,0,0" TextWrapping="Wrap" Text="Subscribed" VerticalAlignment="Top" Width="137"/>
+                	<TextBlock HorizontalAlignment="Left" Height="33" Margin="7,0,0,8" Grid.Row="1" TextWrapping="Wrap" Text="Unsubscribed" VerticalAlignment="Bottom" Width="137"/>
+                </Grid>
             </controls:PivotItem>
         </controls:Pivot>
+        
         <!--TitlePanel contains the name of the application and page title-->
-
-
-
     </Grid>
-
+	<phone:PhoneApplicationPage.ApplicationBar>
+		<shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Mode="Default">
+			<shell:ApplicationBarIconButton x:Name="Previous" IconUri="appbar_button.png" Text="Previous" Click="Previous_Click"/>
+			<shell:ApplicationBarIconButton x:Name="Refresh" IconUri="appbar_button.png" Text="Refresh" Click="Refresh_Click"/>
+			<shell:ApplicationBarIconButton x:Name="AllRead" IconUri="appbar_button.png" Text="All Read" Click="AllRead_Click"/>
+			<shell:ApplicationBarIconButton x:Name="Next" IconUri="appbar_button.png" Text="Next" Click="Next_Click"/>
+		</shell:ApplicationBar>
+	</phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -20,9 +21,13 @@ namespace atomic.rss.wp7.ViewModel
         #region Attributes
         private string login_;
         private string password_;
+        private int selected_tab_;
         private CookieContainer cookie_;
+        private AuthentificationService.AuthentificationDomainServiceSoapClient authClient_;
+        private AuthentificationService.User currentUser_;
 
         private ICommand connect_;
+        private ICommand unlog_;
         #endregion
 
         #region Properties
@@ -59,10 +64,26 @@ namespace atomic.rss.wp7.ViewModel
 
         }
 
-        public NavigationService Navigator
+        public FeedsViewModel FeedsVM
         {
             get;
             set;
+        }
+
+        public int SelectedTab
+        {
+            get
+            {
+                return (selected_tab_);
+
+            }
+            set
+            {
+                if (selected_tab_ != value)
+                    selected_tab_ = value;
+                OnPropertyChanged("SelectedTab");
+            }
+
         }
         #endregion
 
@@ -78,6 +99,17 @@ namespace atomic.rss.wp7.ViewModel
                 connect_ = value;
             }
         }
+
+        public ICommand Unlog
+        {
+            get
+            {
+                return (unlog_);
+            }
+            set
+            {
+            }
+        }
         #endregion
 
         #region Constructors
@@ -85,7 +117,13 @@ namespace atomic.rss.wp7.ViewModel
         {
             login_ = "test@test.com";
             password_ = "test!";
+            selected_tab_ = 0;
             connect_ = new RelayCommand(param => this.connect());
+            unlog_ = new RelayCommand(param => this.unlog());
+            FeedsVM = new FeedsViewModel();
+            authClient_ = new AuthentificationService.AuthentificationDomainServiceSoapClient();
+            authClient_.LoginCompleted += new EventHandler<AuthentificationService.LoginCompletedEventArgs>(authClient_LoginCompleted);
+            authClient_.LogoutCompleted += new EventHandler<AuthentificationService.LogoutCompletedEventArgs>(authClient__LogoutCompleted);
         }
         #endregion
 
@@ -94,10 +132,7 @@ namespace atomic.rss.wp7.ViewModel
         {
             try
             {
-                AuthentificationService.AuthentificationDomainServiceSoapClient authClient = new AuthentificationService.AuthentificationDomainServiceSoapClient();
-
-                authClient.LoginCompleted += new EventHandler<AuthentificationService.LoginCompletedEventArgs>(authClient_LoginCompleted);
-                authClient.LoginAsync(login_, password_, true, "");
+                authClient_.LoginAsync(login_, password_, true, "");
             }
             catch (Exception e)
             {
@@ -113,9 +148,16 @@ namespace atomic.rss.wp7.ViewModel
                 {
                     if (e.Error == null)
                     {
-                        AuthentificationService.AuthentificationDomainServiceSoapClient authClient = (AuthentificationService.AuthentificationDomainServiceSoapClient)sender;
-                        cookie_ = authClient.CookieContainer;
-                        Debug.WriteLine("Your logged in !");
+                        if (e.Result.RootResults != null && e.Result.RootResults.Count > 0)
+                        {
+                            AuthentificationService.AuthentificationDomainServiceSoapClient authClient = (AuthentificationService.AuthentificationDomainServiceSoapClient)sender;
+                            currentUser_ = e.Result.RootResults.First();
+                            cookie_ = authClient.CookieContainer;
+                            Debug.WriteLine("Your logged in ! " + currentUser_.Name);
+                            FeedsVM.CurrentUser = currentUser_;
+                            FeedsVM.MainVM = this;
+                            FeedsVM.init();
+                        }
                     }
                     else
                     {
@@ -129,6 +171,31 @@ namespace atomic.rss.wp7.ViewModel
             }
         }
 
+        private void unlog()
+        {
+            try
+            {
+                authClient_.LogoutAsync();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+        void authClient__LogoutCompleted(object sender, AuthentificationService.LogoutCompletedEventArgs e)
+        {
+            Login = "";
+            Password = "";
+            FeedsVM.SelectedArticles = null;
+            FeedsVM.SelectedChannels = null;
+            FeedsVM.UnreadArticles = null;
+            FeedsVM.UnsubChannels = null;
+            FeedsVM.UriChannel = null;
+            FeedsVM.SubChannels = null;
+            FeedsVM.ArticleLink = null;
+            FeedsVM.CurrentUser = null;
+        }
         #endregion
     }
 }

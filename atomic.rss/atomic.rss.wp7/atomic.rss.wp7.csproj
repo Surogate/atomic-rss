@@ -80,6 +80,7 @@
     </Compile>
     <Compile Include="Utils\BasicViewModel.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
+    <Compile Include="ViewModel\FeedsViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +96,32 @@
   <ItemGroup>
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml" />
+    <None Include="Service References\AuthentificationService\atomic-rss-Web-Services-AuthentificationDomainService.disco" />
+    <None Include="Service References\AuthentificationService\atomic.rss.wp7.AuthentificationService.ChangeSetEntry.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AuthentificationService\atomic.rss.wp7.AuthentificationService.QueryResultOfUser.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AuthentificationService\configuration91.svcinfo" />
+    <None Include="Service References\AuthentificationService\configuration.svcinfo" />
+    <None Include="Service References\AuthentificationService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\FeedsManager\atomic.rss.wp7.FeedsManager.Item.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\FeedsManager\FeedsManager.disco" />
+    <None Include="Service References\FeedsManager\configuration91.svcinfo" />
+    <None Include="Service References\FeedsManager\configuration.svcinfo" />
+    <None Include="Service References\FeedsManager\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="ServiceReferences.ClientConfig">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Service References\AuthentificationService\atomic-rss-Web-Services-AuthentificationDomainService.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -110,23 +137,7 @@
     <None Include="Service References\AuthentificationService\atomic-rss-Web-Services-AuthentificationDomainService4.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\AuthentificationService\atomic.rss.wp7.AuthentificationService.ChangeSetEntry.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\AuthentificationService\atomic.rss.wp7.AuthentificationService.QueryResultOfUser.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Service References\AuthentificationService\AuthentificationDomainService.wsdl" />
-    <None Include="Service References\FeedsManager\FeedsManager.disco" />
-    <None Include="Service References\FeedsManager\configuration91.svcinfo" />
-    <None Include="Service References\FeedsManager\configuration.svcinfo" />
-    <None Include="Service References\FeedsManager\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <Content Include="ServiceReferences.ClientConfig">
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="Service References\FeedsManager\FeedsManager.wsdl" />
     <None Include="Service References\FeedsManager\FeedsManager.xsd">
       <SubType>Designer</SubType>
@@ -145,24 +156,17 @@
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Service References\AuthentificationService\atomic-rss-Web-Services-AuthentificationDomainService.disco" />
-    <None Include="Service References\AuthentificationService\configuration91.svcinfo" />
-    <None Include="Service References\AuthentificationService\configuration.svcinfo" />
-    <None Include="Service References\AuthentificationService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\AuthentificationService\" />
-    <WCFMetadataStorage Include="Service References\FeedsManager\" />
+    <Folder Include="View\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="View\" />
+    <WCFMetadataStorage Include="Service References\AuthentificationService\" />
+    <WCFMetadataStorage Include="Service References\FeedsManager\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
