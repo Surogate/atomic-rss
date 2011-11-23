@@ -10,6 +10,8 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using atomic.rss.wp7.Utils;
 using System.Diagnostics;
+using System.Windows.Navigation;
+using System.Collections.ObjectModel;
 
 namespace atomic.rss.wp7.ViewModel
 {
@@ -56,6 +58,12 @@ namespace atomic.rss.wp7.ViewModel
             }
 
         }
+
+        public NavigationService Navigator
+        {
+            get;
+            set;
+        }
         #endregion
 
         #region Commands
@@ -75,6 +83,8 @@ namespace atomic.rss.wp7.ViewModel
         #region Constructors
         public MainViewModel()
         {
+            login_ = "test@test.com";
+            password_ = "test!";
             connect_ = new RelayCommand(param => this.connect());
         }
         #endregion
@@ -97,18 +107,25 @@ namespace atomic.rss.wp7.ViewModel
 
         private void authClient_LoginCompleted(object sender, AuthentificationService.LoginCompletedEventArgs e)
         {
-            if (!e.Cancelled)
+            try
             {
-                if (e.Error == null)
+                if (!e.Cancelled)
                 {
-                    AuthentificationService.AuthentificationDomainServiceSoapClient authClient = (AuthentificationService.AuthentificationDomainServiceSoapClient)sender;
-                    cookie_ = authClient.CookieContainer;
-                    Debug.WriteLine("Your logged bitch !");
+                    if (e.Error == null)
+                    {
+                        AuthentificationService.AuthentificationDomainServiceSoapClient authClient = (AuthentificationService.AuthentificationDomainServiceSoapClient)sender;
+                        cookie_ = authClient.CookieContainer;
+                        Debug.WriteLine("Your logged in !");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Error : " + e.Error.Message);
+                    }
                 }
-                else
-                {
-                    Debug.WriteLine("Error : " + e.Error.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
             }
         }
 

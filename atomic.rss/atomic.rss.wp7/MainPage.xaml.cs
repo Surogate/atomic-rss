@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using atomic.rss.wp7.ViewModel;
 
 namespace atomic.rss.wp7
 {
