@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="37062bc5-1e40-4c28-96f9-2e42b7d8661c" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:48655/atomic-rss-Web-Services-AuthentificationDomainService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="atomic-rss-Web-Services-AuthentificationDomainService.xsd" MetadataType="Schema" ID="efe937ac-0b60-46ae-9472-ac02da18030e" SourceId="1" SourceUrl="http://localhost:48655/Services/atomic-rss-Web-Services-AuthentificationDomainService.svc?xsd=xsd4" />
+    <MetadataFile FileName="atomic-rss-Web-Services-AuthentificationDomainService1.xsd" MetadataType="Schema" ID="c44289d7-ec5d-4376-aa5d-cd6c59c0682a" SourceId="1" SourceUrl="http://localhost:48655/Services/atomic-rss-Web-Services-AuthentificationDomainService.svc?xsd=xsd3" />
+    <MetadataFile FileName="atomic-rss-Web-Services-AuthentificationDomainService2.xsd" MetadataType="Schema" ID="3c332624-5331-48a1-985f-242c84789a50" SourceId="1" SourceUrl="http://localhost:48655/Services/atomic-rss-Web-Services-AuthentificationDomainService.svc?xsd=xsd2" />
+    <MetadataFile FileName="AuthentificationDomainService.wsdl" MetadataType="Wsdl" ID="dcb71467-af41-436a-8c26-37f3a7f48aba" SourceId="1" SourceUrl="http://localhost:48655/Services/atomic-rss-Web-Services-AuthentificationDomainService.svc?wsdl" />
+    <MetadataFile FileName="atomic-rss-Web-Services-AuthentificationDomainService3.xsd" MetadataType="Schema" ID="350b58fa-ce0b-411d-9a98-8739233ea017" SourceId="1" SourceUrl="http://localhost:48655/Services/atomic-rss-Web-Services-AuthentificationDomainService.svc?xsd=xsd0" />
+    <MetadataFile FileName="atomic-rss-Web-Services-AuthentificationDomainService4.xsd" MetadataType="Schema" ID="37725ab3-eb52-4b7e-8be2-77efc4cba9d8" SourceId="1" SourceUrl="http://localhost:48655/Services/atomic-rss-Web-Services-AuthentificationDomainService.svc?xsd=xsd1" />
+    <MetadataFile FileName="atomic-rss-Web-Services-AuthentificationDomainService.disco" MetadataType="Disco" ID="18958fef-fd0d-4c65-b499-b7ddd39f35cb" SourceId="1" SourceUrl="http://localhost:48655/Services/atomic-rss-Web-Services-AuthentificationDomainService.svc?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
