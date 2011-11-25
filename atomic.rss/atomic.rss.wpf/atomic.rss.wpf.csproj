@@ -72,7 +72,9 @@
     <Compile Include="Utils\CookieManagerBehaviorExtension.cs" />
     <Compile Include="Utils\CookieManagerEndpointBehavior.cs" />
     <Compile Include="Utils\CookieManagerMessageInspector.cs" />
+    <Compile Include="Utils\PasswordHelper.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
+    <Compile Include="Utils\WebBrowserHelper.cs" />
     <Compile Include="ViewModel\FeedsViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Page Include="MainWindow.xaml">

@@ -1,7 +1,11 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:atomic_rss_wpf_ViewModel="clr-namespace:atomic.rss.wpf.ViewModel" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="atomic.rss.wpf.MainWindow"
+        xmlns:atomic_rss_wpf_ViewModel="clr-namespace:atomic.rss.wpf.ViewModel"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:help="clr-namespace:atomic.rss.wpf.Utils"
+		mc:Ignorable="d" x:Class="atomic.rss.wpf.MainWindow"
         Title="Atomic Rss" Height="472" Width="710">
 	<Window.DataContext>
 		<atomic_rss_wpf_ViewModel:MainViewModel/>
@@ -13,11 +17,11 @@
     	
     		<TextBox Height="29" Margin="65,0,0,0" TextWrapping="Wrap" Text="{Binding Login, Mode=TwoWay}" VerticalAlignment="Top"/>
     		<Button Content="Connect" HorizontalAlignment="Left" Height="27" VerticalAlignment="Bottom" Width="105" Command="{Binding Connect}"/>
-    		<TextBox Margin="65,38,0,55" TextWrapping="Wrap" Text="{Binding Password, Mode=TwoWay}" Background="White"/>
+    		<PasswordBox Margin="65,38,0,0" help:PasswordHelper.Attach="True"  help:PasswordHelper.Password="{Binding Password, Mode=TwoWay}" Background="White" Height="29" VerticalAlignment="Top"/>
         
     	</Grid>
     	<Grid x:Name="FeedsViewer" Visibility="{Binding FeedsViewVisibility}">
-    		<TabControl DataContext="{Binding FeedsVM}">
+    		<TabControl DataContext="{Binding FeedsVM}" SelectedIndex="{Binding SwitchTab, Mode=TwoWay}">
     			<TabItem x:Name="News" Header="News">
     				<Grid Background="#FFE5E5E5">
     				<Button Content="Refresh" Height="27" Margin="8,8,0,0" VerticalAlignment="Top" Command="{Binding Refresh}" HorizontalAlignment="Left" Width="167"/>
@@ -36,6 +40,11 @@
     			    </ListBox>
     				<Button Content="All Read" Height="27" Margin="203,8,0,0" VerticalAlignment="Top" Command="{Binding AllRead}" HorizontalAlignment="Left" Width="167"/>
 					</Grid>
+    			</TabItem>
+    			<TabItem x:Name="CurrentArticle" Header="CurrentArticle">
+    				<Grid Background="#FFE5E5E5">
+    					<WebBrowser help:WebBrowserHelper.BindableSource="{Binding CurrentArticleLink}"/>
+    				</Grid>
     			</TabItem>
     			<TabItem x:Name="Archives" Header="Archives">
     				<Grid Background="#FFE5E5E5">
