@@ -29,6 +29,8 @@ namespace atomic.rss.wpf.ViewModel
         private Item selected_article_;
         private Item selected_channel_;
         private string uri_channel_;
+        private Uri current_article_;
+        private int switch_tab_;
 
         private ICommand refresh_;
         private ICommand add_channels_;
@@ -112,9 +114,17 @@ namespace atomic.rss.wpf.ViewModel
             }
             set
             {
-                selected_article_ = value;
-                setArticleRead();
-                OnPropertyChanged("SelectedArticles");
+                if (selected_article_ != value)
+                {
+                    selected_article_ = value;
+                    if (selected_article_ != null)
+                    {
+                        CurrentArticleLink = new Uri(selected_article_.Link);
+                        SwitchTab = 1;
+                    }
+                    setArticleRead();
+                    OnPropertyChanged("SelectedArticles");
+                }
             }
         }
 
@@ -141,6 +151,34 @@ namespace atomic.rss.wpf.ViewModel
             {
                 uri_channel_ = value;
                 OnPropertyChanged("UriChannels");
+            }
+        }
+
+        public Uri CurrentArticleLink
+        {
+            get
+            {
+                return (current_article_);
+            }
+            set
+            {
+                if (current_article_ != value)
+                    current_article_ = value;
+                OnPropertyChanged("CurrentArticleLink");
+            }
+        }
+
+        public int SwitchTab
+        {
+            get
+            {
+                return (switch_tab_);
+            }
+            set
+            {
+                if (switch_tab_ != value)
+                    switch_tab_ = value;
+                OnPropertyChanged("SwitchTab");
             }
         }
 
@@ -307,6 +345,7 @@ namespace atomic.rss.wpf.ViewModel
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
+                MessageBox.Show("An error occured please try again.");
             }
         }
 
@@ -326,6 +365,7 @@ namespace atomic.rss.wpf.ViewModel
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
+                MessageBox.Show("An error occured please try again.");
             }
         }
 
@@ -346,6 +386,7 @@ namespace atomic.rss.wpf.ViewModel
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
+                MessageBox.Show("An error occured please try again.");
             }
         }
 
@@ -366,6 +407,7 @@ namespace atomic.rss.wpf.ViewModel
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
+                MessageBox.Show("An error occured please try again.");
             }
         }
 
