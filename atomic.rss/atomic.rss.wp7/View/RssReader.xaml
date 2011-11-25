@@ -1,0 +1,87 @@
+﻿<phone:PhoneApplicationPage 
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+	xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+	xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:atomic_rss_wp7_ViewModel="clr-namespace:atomic.rss.wp7.ViewModel"
+	mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800"
+	x:Class="atomic_rss_wp7.RssReader"
+	FontFamily="{StaticResource PhoneFontFamilyNormal}"
+	FontSize="{StaticResource PhoneFontSizeNormal}"
+	Foreground="{StaticResource PhoneForegroundBrush}"
+	SupportedOrientations="Portrait" Orientation="Portrait"
+	shell:SystemTray.IsVisible="True" Unloaded="PhoneApplicationPage_Unloaded">
+	<phone:PhoneApplicationPage.DataContext>
+		<atomic_rss_wp7_ViewModel:MainViewModel/>
+	</phone:PhoneApplicationPage.DataContext>
+
+	<phone:PhoneApplicationPage.ApplicationBar>
+		<shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Mode="Default">
+			<shell:ApplicationBarIconButton x:Name="Previous" IconUri="appbar_button.png" Text="Previous" Click="Previous_Click"/>
+			<shell:ApplicationBarIconButton x:Name="Refresh" IconUri="appbar_button.png" Text="Refresh" Click="Refresh_Click"/>
+			<shell:ApplicationBarIconButton x:Name="AllRead" IconUri="appbar_button.png" Text="All Read" Click="AllRead_Click"/>
+			<shell:ApplicationBarIconButton x:Name="Next" IconUri="appbar_button.png" Text="Next" Click="Next_Click"/>
+		</shell:ApplicationBar>
+	</phone:PhoneApplicationPage.ApplicationBar>
+	<Grid x:Name="LayoutRoot" Background="Transparent">
+		<controls:Pivot Title="Atomic Rss" SelectedIndex="{Binding SelectedTab, Mode=TwoWay}" Margin="0,0,0,72">
+
+			<!--Pivot item two-->
+			<controls:PivotItem x:Name="News" Header="News">
+				<Grid>
+					<ListBox ItemsSource="{Binding FeedsVM.UnreadArticles}" SelectedItem="{Binding FeedsVM.SelectedArticles, Mode=TwoWay}" Height="463" VerticalAlignment="Top">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Vertical">
+									<TextBlock x:Name="Title" Text="{Binding Title}" TextWrapping="Wrap"/>
+									<TextBlock x:Name="Date" Text="{Binding Date}" Margin="0,0,0,10"/>
+									<TextBlock x:Name="Summary" TextWrapping="Wrap" Text="{Binding Description}" Margin="0,0,0,10"/>
+									<HyperlinkButton NavigateUri="{Binding Link}" TargetName="_new"><TextBlock x:Name="Link" Text="{Binding Link}" TextWrapping="Wrap"/></HyperlinkButton>
+									<Rectangle Height="2" Fill="Beige"/>
+								</StackPanel>			
+							</DataTemplate>			
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</Grid>
+			</controls:PivotItem>
+			<controls:PivotItem x:Name="View_Article" Header="Current News">
+				<Grid>
+					<phone:WebBrowser TabNavigation="Once" Source="{Binding FeedsVM.ArticleLink}"/>
+				</Grid>
+			</controls:PivotItem>
+			<controls:PivotItem x:Name="ManageFlux" Header="Manage Flux">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="0.488*"/>
+						<RowDefinition Height="0.512*"/>
+					</Grid.RowDefinitions>
+					<ListBox ItemsSource="{Binding FeedsVM.SubChannels}" SelectedItem="{Binding FeedsVM.SelectedChannels, Mode=TwoWay}" Margin="0,35,0,0">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Vertical">
+									<TextBlock x:Name="Title" Text="{Binding Title}" TextWrapping="Wrap"/>
+								</StackPanel>			
+							</DataTemplate>			
+						</ListBox.ItemTemplate>
+					</ListBox>
+					<Rectangle Height="2" Fill="AliceBlue" VerticalAlignment="Bottom" d:LayoutOverrides="Height, VerticalMargin"/>
+					<ListBox Grid.Row="1" ItemsSource="{Binding FeedsVM.UnsubChannels}" SelectedItem="{Binding FeedsVM.SelectedChannels, Mode=TwoWay}" Margin="0,0,0,41">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Vertical">
+									<TextBlock x:Name="Title" Text="{Binding Title}" TextWrapping="Wrap"/>
+								</StackPanel>			
+							</DataTemplate>			
+						</ListBox.ItemTemplate>
+					</ListBox>
+					<TextBlock HorizontalAlignment="Left" Height="27" Margin="7,8,0,0" TextWrapping="Wrap" Text="Subscribed" VerticalAlignment="Top" Width="137"/>
+					<TextBlock HorizontalAlignment="Left" Height="33" Margin="7,0,0,8" Grid.Row="1" TextWrapping="Wrap" Text="Unsubscribed" VerticalAlignment="Bottom" Width="137"/>
+				</Grid>
+			</controls:PivotItem>
+		</controls:Pivot>
+		<!--Pivot Control-->
+	</Grid>
+</phone:PhoneApplicationPage>

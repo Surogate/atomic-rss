@@ -12,21 +12,31 @@ using atomic.rss.sl4.navigable.Utils;
 using System.ServiceModel.DomainServices.Client.ApplicationServices;
 using System.Diagnostics;
 using atomic.rss.sl4.navigable.RegisterService;
+using System.ComponentModel.DataAnnotations;
 
 namespace atomic.rss.sl4.navigable.ViewModel
 {
     public class MainViewModel : BasicViewModel
     {
+        #region Constants
+        const string COLOR_BLACK = "Black";
+        const string COLOR_RED = "Red";
+        const string COLOR_GREEN = "Green";
+        #endregion
+
         #region Attributes
         // Properties
         private string email_;
         private string password_;
         private string passworkCheck_;
+        private string email_register_;
+        private string password_register_;
         private Visibility login_register_page_;
         private Visibility home_page_;
         private Visibility admin_control_;
         private Visibility logout_button_;
-
+        private string log_msg_;
+        private string color_log_;
         private string current_page_;
 
 
@@ -42,6 +52,8 @@ namespace atomic.rss.sl4.navigable.ViewModel
             email_ = null;
             password_ = null;
             passworkCheck_ = null;
+            email_register_ = null;
+            password_register_ = null;
             login_ = new RelayCommand(param => this.login());
             register_ = new RelayCommand(param => this.register());
             logout_ = new RelayCommand(param => this.logout());
@@ -50,10 +62,13 @@ namespace atomic.rss.sl4.navigable.ViewModel
             admin_control_ = Visibility.Collapsed;
             logout_button_ = Visibility.Collapsed;
             current_page_ = "/LoginAndRegister";
+            log_msg_ = "";
+            color_log_ = COLOR_BLACK;
         }
         #endregion
 
         #region Properties
+
         public string Email
         {
             get 
@@ -82,6 +97,35 @@ namespace atomic.rss.sl4.navigable.ViewModel
             }
         }
 
+        public string EmailRegister
+        {
+            get
+            {
+                return (email_register_);
+            }
+            set
+            {
+                if (email_register_ != value)
+                    email_register_ = value;
+                OnPropertyChanged("EmailRegister");
+            }
+
+        }
+
+        public string PasswordRegister
+        {
+            get
+            {
+                return (password_register_);
+            }
+            set
+            {
+                if (password_register_ != value)
+                    password_register_ = value;
+                OnPropertyChanged("PasswordRegister");
+            }
+        }
+
         public string PasswordCheck
         {
             get
@@ -93,6 +137,34 @@ namespace atomic.rss.sl4.navigable.ViewModel
                 if (passworkCheck_ != value)
                     passworkCheck_ = value;
                 OnPropertyChanged("PasswordCheck");
+            }
+        }
+
+        public string LogMessage
+        {
+            get
+            {
+                return (log_msg_);
+            }
+            set
+            {
+                if (log_msg_ != value)
+                    log_msg_ = value;
+                OnPropertyChanged("LogMessage");
+            }
+        }
+
+        public string ColorLog
+        {
+            get
+            {
+                return (color_log_);
+            }
+            set
+            {
+                if (color_log_ != value)
+                    color_log_ = value;
+                OnPropertyChanged("ColorLog");
             }
         }
 
@@ -202,6 +274,11 @@ namespace atomic.rss.sl4.navigable.ViewModel
         #region Methods
         private void login()
         {
+            if (Email == null || Password == null)
+            {
+                error();
+                return;
+            }
             LoginOperation loginOp = WebContext.Current.Authentication.Login(new LoginParameters(email_, password_));
             loginOp.Completed += new EventHandler(loginOp_Completed);
         }
@@ -217,7 +294,8 @@ namespace atomic.rss.sl4.navigable.ViewModel
             }
             else if (!loginOp.LoginSuccess)
             {
-                Debug.WriteLine("YOU FAIL !");
+                if (loginOp.Error != null)
+                    Debug.WriteLine("FAIL : " + loginOp.Error.Message);
                 return;
             }
             Debug.WriteLine("You're now logued ! " + WebContext.Current.Authentication.User.Identity.IsAuthenticated);
@@ -250,6 +328,13 @@ namespace atomic.rss.sl4.navigable.ViewModel
                 UserPageVisibility = Visibility.Collapsed;
                 LogoutVisibility = Visibility.Collapsed;
                 LoginRegisterPageVisibility = Visibility.Visible;
+                ColorLog = COLOR_BLACK;
+                LogMessage = "";
+                Email = null;
+                EmailRegister = null;
+                PasswordCheck = null;
+                PasswordRegister = null;
+                Password = null;
             }
             else
             {
@@ -264,9 +349,14 @@ namespace atomic.rss.sl4.navigable.ViewModel
             try
             {
                 NewUser user = new NewUser();
-                user.Email = Email;
-                user.Password = Password;
+                user.Email = EmailRegister;
+                user.Password = PasswordRegister;
                 user.ConfirmPassword = PasswordCheck;
+                if (user.Email == null || user.Password == null || user.ConfirmPassword == null)
+                {
+                    error();
+                    return;
+                }
                 RegisterServiceClient rsc = new RegisterServiceClient();
                 rsc.RegisterUserAsync(user);
                 rsc.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(rsc_RegisterUserCompleted);
@@ -283,9 +373,21 @@ namespace atomic.rss.sl4.navigable.ViewModel
             if (result.HasError)
             {
                 Debug.WriteLine(result.Message);
+                LogMessage = result.Message;
+                ColorLog = COLOR_RED;
             }
             else
+            {
                 Debug.WriteLine(result.Message);
+                LogMessage = result.Message;
+                ColorLog = COLOR_GREEN;
+            }
+        }
+
+        private void error()
+        {
+            LogMessage = "An error occured please try again.";
+            ColorLog = COLOR_RED;
         }
 
         #endregion

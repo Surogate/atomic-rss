@@ -22,30 +22,11 @@ namespace atomic.rss.wp7
             InitializeComponent();
         }
 
-        private void Previous_Click(object sender, System.EventArgs e)
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
         	// TODO: Add event handler implementation here.
-            int select = ((MainViewModel)DataContext).SelectedTab;
-            ((MainViewModel)DataContext).SelectedTab = (select == 1) ? (3) : (select - 1);
-        }
-
-        private void Refresh_Click(object sender, System.EventArgs e)
-        {
-        	// TODO: Add event handler implementation here.
-            ((MainViewModel)DataContext).FeedsVM.refresh();
-        }
-
-        private void AllRead_Click(object sender, System.EventArgs e)
-        {
-        	// TODO: Add event handler implementation here.
-            ((MainViewModel)DataContext).FeedsVM.setAllRead();
-        }
-
-        private void Next_Click(object sender, System.EventArgs e)
-        {
-        	// TODO: Add event handler implementation here.
-            int select = ((MainViewModel)DataContext).SelectedTab;
-            ((MainViewModel)DataContext).SelectedTab = (select == 3) ? (1) : (select + 1);
+            if (DataContext == null) return;
+            ((MainViewModel)DataContext).NavigationService = NavigationService;
         }
     }
 }

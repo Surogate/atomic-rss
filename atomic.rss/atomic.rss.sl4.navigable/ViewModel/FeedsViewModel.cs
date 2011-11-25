@@ -382,6 +382,8 @@ namespace atomic.rss.sl4.navigable.ViewModel
                     clt.AddChannelsCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clt_AddChannelsCompleted);
                     refresh();
                 }
+                else
+                    errorWindow("Please fill the text box with correct url before adding it.");
             }
             catch (Exception e)
             {
@@ -394,7 +396,10 @@ namespace atomic.rss.sl4.navigable.ViewModel
             if (e.Error == null)
                 Debug.WriteLine("Add Channels complete");
             else
+            {
                 Debug.WriteLine("Error : " + e.Error.Message);
+                errorWindow(e.Error.Message);
+            }
             setChannels();
             refresh();
             updateProperties();
@@ -445,6 +450,19 @@ namespace atomic.rss.sl4.navigable.ViewModel
             setChannels();
             refresh();
             updateProperties();
+        }
+
+        private void errorWindow(string message)
+        {
+            try
+            {
+                ErrorWindow err = new ErrorWindow("An error occured", message);
+                err.Show();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error window fail : " + ex.Message);
+            }
         }
         #endregion
     }
