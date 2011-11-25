@@ -27,11 +27,11 @@
     	<Grid x:Name="RegisterBlock" Height="148" Margin="35,85,0,0" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Left" Width="216">
     		<Grid Height="25" VerticalAlignment="Top">
     			<TextBlock Margin="0,4" TextWrapping="Wrap" Text="Login (Email)" HorizontalAlignment="Left" Width="91"/>
-    			<TextBox TextWrapping="Wrap" Text="{Binding Email, Mode=TwoWay}" HorizontalAlignment="Right" Width="103"/>
+    			<TextBox TextWrapping="Wrap" Text="{Binding EmailRegister, Mode=TwoWay}" HorizontalAlignment="Right" Width="103"/>
     		</Grid>
     		<Grid Height="25" Margin="0,39,0,0" VerticalAlignment="Top">
     			<TextBlock Margin="0,4,0,5" TextWrapping="Wrap" Text="Password" HorizontalAlignment="Left" Width="75"/>
-    			<PasswordBox HorizontalAlignment="Right" Width="103" Password="{Binding Password, Mode=TwoWay}"/>
+    			<PasswordBox HorizontalAlignment="Right" Width="103" Password="{Binding PasswordRegister, Mode=TwoWay}"/>
     		</Grid>
     		<Grid Height="25" Margin="0,0,0,48" VerticalAlignment="Bottom">
     			<TextBlock Margin="0,5,92,4" TextWrapping="Wrap" Text="Confirm Password"/>
@@ -39,6 +39,6 @@
     		</Grid>
     		<Button Content="Register" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="84" Command="{Binding Register}"/>
     	</Grid>
-    	<TextBlock x:Name="InfoText" Height="109" Margin="70,0,70,47" TextWrapping="Wrap" VerticalAlignment="Bottom" Grid.ColumnSpan="2"/>
+    	<TextBlock x:Name="InfoText" Height="109" Margin="70,0,70,47" TextWrapping="Wrap" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Text="{Binding LogMessage, Mode=TwoWay}" Foreground="{Binding ColorLog, Mode=TwoWay}" />
     </Grid>
 </navigation:Page>

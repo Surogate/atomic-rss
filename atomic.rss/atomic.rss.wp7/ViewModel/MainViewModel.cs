@@ -18,6 +18,13 @@ namespace atomic.rss.wp7.ViewModel
 {
     public class MainViewModel : BasicViewModel
     {
+        static MainViewModel instance_ = null;
+
+        public static MainViewModel instance()
+        {
+            return instance_;
+        }
+
         #region Attributes
         private string login_;
         private string password_;
@@ -27,7 +34,6 @@ namespace atomic.rss.wp7.ViewModel
         private AuthentificationService.User currentUser_;
 
         private ICommand connect_;
-        private ICommand unlog_;
         #endregion
 
         #region Properties
@@ -83,7 +89,12 @@ namespace atomic.rss.wp7.ViewModel
                     selected_tab_ = value;
                 OnPropertyChanged("SelectedTab");
             }
+        }
 
+        public NavigationService NavigationService
+        {
+            get;
+            set;
         }
         #endregion
 
@@ -99,17 +110,6 @@ namespace atomic.rss.wp7.ViewModel
                 connect_ = value;
             }
         }
-
-        public ICommand Unlog
-        {
-            get
-            {
-                return (unlog_);
-            }
-            set
-            {
-            }
-        }
         #endregion
 
         #region Constructors
@@ -119,11 +119,12 @@ namespace atomic.rss.wp7.ViewModel
             password_ = "test!";
             selected_tab_ = 0;
             connect_ = new RelayCommand(param => this.connect());
-            unlog_ = new RelayCommand(param => this.unlog());
             FeedsVM = new FeedsViewModel();
             authClient_ = new AuthentificationService.AuthentificationDomainServiceSoapClient();
             authClient_.LoginCompleted += new EventHandler<AuthentificationService.LoginCompletedEventArgs>(authClient_LoginCompleted);
             authClient_.LogoutCompleted += new EventHandler<AuthentificationService.LogoutCompletedEventArgs>(authClient__LogoutCompleted);
+            if (instance_ == null)
+                instance_ = this;
         }
         #endregion
 
@@ -132,6 +133,11 @@ namespace atomic.rss.wp7.ViewModel
         {
             try
             {
+                if (Login == null || Password == null)
+                {
+                    System.Windows.MessageBox.Show("An error occured please try again.");
+                    return;
+                }
                 authClient_.LoginAsync(login_, password_, true, "");
             }
             catch (Exception e)
@@ -157,11 +163,17 @@ namespace atomic.rss.wp7.ViewModel
                             FeedsVM.CurrentUser = currentUser_;
                             FeedsVM.MainVM = this;
                             FeedsVM.init();
+                            NavigationService.Navigate(new Uri("/View/RssReader.xaml", UriKind.Relative));
+                        }
+                        else
+                        {
+                            System.Windows.MessageBox.Show("An error occured please try again.");
                         }
                     }
                     else
                     {
                         Debug.WriteLine("Error : " + e.Error.Message);
+                        System.Windows.MessageBox.Show("An error occured please try again.");
                     }
                 }
             }
@@ -171,7 +183,7 @@ namespace atomic.rss.wp7.ViewModel
             }
         }
 
-        private void unlog()
+        public void unlog()
         {
             try
             {
@@ -185,8 +197,8 @@ namespace atomic.rss.wp7.ViewModel
 
         void authClient__LogoutCompleted(object sender, AuthentificationService.LogoutCompletedEventArgs e)
         {
-            Login = "";
-            Password = "";
+            Login = null;
+            Password = null;
             FeedsVM.SelectedArticles = null;
             FeedsVM.SelectedChannels = null;
             FeedsVM.UnreadArticles = null;
@@ -195,6 +207,12 @@ namespace atomic.rss.wp7.ViewModel
             FeedsVM.SubChannels = null;
             FeedsVM.ArticleLink = null;
             FeedsVM.CurrentUser = null;
+            authClient_ = null;
+        }
+
+        public bool hasError()
+        {
+            return (authClient_ == null);
         }
         #endregion
     }

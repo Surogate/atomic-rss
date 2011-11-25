@@ -13,15 +13,12 @@ using System.Diagnostics;
 using System.Collections.ObjectModel;
 using atomic.rss.wpf.Utils;
 using atomic.rss.wpf.FeedsManager;
-using atomic.rss.wpf.Utils;
-
 
 namespace atomic.rss.wpf.ViewModel
 {
     public class FeedsViewModel : BasicViewModel
     {
         #region Constants
-        private const string URI_RSS_DATA_SERVICE = "http://localhost:48655/Services/AtomicRssDataService.svc/";
         #endregion
 
         #region Attributes
