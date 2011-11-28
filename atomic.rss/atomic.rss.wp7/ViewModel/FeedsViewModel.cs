@@ -93,8 +93,8 @@ namespace atomic.rss.wp7.ViewModel
                 if (selected_article_ != value)
                 {
                     selected_article_ = value;
-                    if (MainVM.SelectedTab == 1)
-                        MainVM.SelectedTab = 2;
+                    if (MainVM.SelectedTab == 0)
+                        MainVM.SelectedTab = 1;
                     setArticleRead();
                     OnPropertyChanged("SelectedArticles");
                 }
