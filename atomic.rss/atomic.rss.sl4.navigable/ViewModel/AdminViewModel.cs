@@ -185,14 +185,73 @@ namespace atomic.rss.sl4.navigable.ViewModel
             {
                 if (SelectedUser != null)
                 {
-                    UsersSet.Remove(SelectedUser);
-                    OnPropertyChanged("UsersSet");
+                    deleteUserRelation();
                 }
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.StackTrace);
             }
+        }
+
+        private void deleteUserRelation()
+        {
+            try
+            {
+                FeedsManager.FeedsManagerClient clt = new FeedsManager.FeedsManagerClient();
+                clt.DestroyArticlesRelationWithUserCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clt_DestroyArticlesRelationWithUserCompleted);
+                clt.DestroyChannelsRelationWithUserCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clt_DestroyChannelsRelationWithUserCompleted);
+                clt.DestroyArticlesRelationWithUserAsync(SelectedUser.Id);
+                clt.DestroyChannelsRelationWithUserAsync(SelectedUser.Id);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+        void clt_DestroyChannelsRelationWithUserCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                try
+                {
+                    if (SelectedUser != null)
+                    {
+                        UsersSet.Remove(SelectedUser);
+                        SelectedUser = null;
+                        OnPropertyChanged("UsersSet");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+            else
+                Debug.WriteLine("Error deleteChannels : " + e.Error.StackTrace);
+        }
+
+        void clt_DestroyArticlesRelationWithUserCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                try
+                {
+                    if (SelectedUser != null)
+                    {
+                        UsersSet.Remove(SelectedUser);
+                        SelectedUser = null;
+                        OnPropertyChanged("UsersSet");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+            else
+                Debug.WriteLine("Error deleteChannels : " + e.Error.StackTrace);
         }
 
         private void deleteChannels()

@@ -159,10 +159,20 @@ namespace atomic.rss.sl4.navigable.FeedsManager {
         
         void EndDestroyChannelsRelation(System.IAsyncResult result);
         
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFeedsManager/DestroyChannelsRelationWithUser", ReplyAction="http://tempuri.org/IFeedsManager/DestroyChannelsRelationWithUserResponse")]
+        System.IAsyncResult BeginDestroyChannelsRelationWithUser(int id_user, System.AsyncCallback callback, object asyncState);
+        
+        void EndDestroyChannelsRelationWithUser(System.IAsyncResult result);
+        
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFeedsManager/DestroyArticlesRelation", ReplyAction="http://tempuri.org/IFeedsManager/DestroyArticlesRelationResponse")]
         System.IAsyncResult BeginDestroyArticlesRelation(int id_channels, System.AsyncCallback callback, object asyncState);
         
         void EndDestroyArticlesRelation(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IFeedsManager/DestroyArticlesRelationWithUser", ReplyAction="http://tempuri.org/IFeedsManager/DestroyArticlesRelationWithUserResponse")]
+        System.IAsyncResult BeginDestroyArticlesRelationWithUser(int id_user, System.AsyncCallback callback, object asyncState);
+        
+        void EndDestroyArticlesRelationWithUser(System.IAsyncResult result);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -309,11 +319,23 @@ namespace atomic.rss.sl4.navigable.FeedsManager {
         
         private System.Threading.SendOrPostCallback onDestroyChannelsRelationCompletedDelegate;
         
+        private BeginOperationDelegate onBeginDestroyChannelsRelationWithUserDelegate;
+        
+        private EndOperationDelegate onEndDestroyChannelsRelationWithUserDelegate;
+        
+        private System.Threading.SendOrPostCallback onDestroyChannelsRelationWithUserCompletedDelegate;
+        
         private BeginOperationDelegate onBeginDestroyArticlesRelationDelegate;
         
         private EndOperationDelegate onEndDestroyArticlesRelationDelegate;
         
         private System.Threading.SendOrPostCallback onDestroyArticlesRelationCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginDestroyArticlesRelationWithUserDelegate;
+        
+        private EndOperationDelegate onEndDestroyArticlesRelationWithUserDelegate;
+        
+        private System.Threading.SendOrPostCallback onDestroyArticlesRelationWithUserCompletedDelegate;
         
         private BeginOperationDelegate onBeginOpenDelegate;
         
@@ -388,7 +410,11 @@ namespace atomic.rss.sl4.navigable.FeedsManager {
         
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> DestroyChannelsRelationCompleted;
         
+        public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> DestroyChannelsRelationWithUserCompleted;
+        
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> DestroyArticlesRelationCompleted;
+        
+        public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> DestroyArticlesRelationWithUserCompleted;
         
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> OpenCompleted;
         
@@ -853,6 +879,51 @@ namespace atomic.rss.sl4.navigable.FeedsManager {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult atomic.rss.sl4.navigable.FeedsManager.IFeedsManager.BeginDestroyChannelsRelationWithUser(int id_user, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginDestroyChannelsRelationWithUser(id_user, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        void atomic.rss.sl4.navigable.FeedsManager.IFeedsManager.EndDestroyChannelsRelationWithUser(System.IAsyncResult result) {
+            base.Channel.EndDestroyChannelsRelationWithUser(result);
+        }
+        
+        private System.IAsyncResult OnBeginDestroyChannelsRelationWithUser(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            int id_user = ((int)(inValues[0]));
+            return ((atomic.rss.sl4.navigable.FeedsManager.IFeedsManager)(this)).BeginDestroyChannelsRelationWithUser(id_user, callback, asyncState);
+        }
+        
+        private object[] OnEndDestroyChannelsRelationWithUser(System.IAsyncResult result) {
+            ((atomic.rss.sl4.navigable.FeedsManager.IFeedsManager)(this)).EndDestroyChannelsRelationWithUser(result);
+            return null;
+        }
+        
+        private void OnDestroyChannelsRelationWithUserCompleted(object state) {
+            if ((this.DestroyChannelsRelationWithUserCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.DestroyChannelsRelationWithUserCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void DestroyChannelsRelationWithUserAsync(int id_user) {
+            this.DestroyChannelsRelationWithUserAsync(id_user, null);
+        }
+        
+        public void DestroyChannelsRelationWithUserAsync(int id_user, object userState) {
+            if ((this.onBeginDestroyChannelsRelationWithUserDelegate == null)) {
+                this.onBeginDestroyChannelsRelationWithUserDelegate = new BeginOperationDelegate(this.OnBeginDestroyChannelsRelationWithUser);
+            }
+            if ((this.onEndDestroyChannelsRelationWithUserDelegate == null)) {
+                this.onEndDestroyChannelsRelationWithUserDelegate = new EndOperationDelegate(this.OnEndDestroyChannelsRelationWithUser);
+            }
+            if ((this.onDestroyChannelsRelationWithUserCompletedDelegate == null)) {
+                this.onDestroyChannelsRelationWithUserCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnDestroyChannelsRelationWithUserCompleted);
+            }
+            base.InvokeAsync(this.onBeginDestroyChannelsRelationWithUserDelegate, new object[] {
+                        id_user}, this.onEndDestroyChannelsRelationWithUserDelegate, this.onDestroyChannelsRelationWithUserCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.IAsyncResult atomic.rss.sl4.navigable.FeedsManager.IFeedsManager.BeginDestroyArticlesRelation(int id_channels, System.AsyncCallback callback, object asyncState) {
             return base.Channel.BeginDestroyArticlesRelation(id_channels, callback, asyncState);
         }
@@ -895,6 +966,51 @@ namespace atomic.rss.sl4.navigable.FeedsManager {
             }
             base.InvokeAsync(this.onBeginDestroyArticlesRelationDelegate, new object[] {
                         id_channels}, this.onEndDestroyArticlesRelationDelegate, this.onDestroyArticlesRelationCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult atomic.rss.sl4.navigable.FeedsManager.IFeedsManager.BeginDestroyArticlesRelationWithUser(int id_user, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginDestroyArticlesRelationWithUser(id_user, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        void atomic.rss.sl4.navigable.FeedsManager.IFeedsManager.EndDestroyArticlesRelationWithUser(System.IAsyncResult result) {
+            base.Channel.EndDestroyArticlesRelationWithUser(result);
+        }
+        
+        private System.IAsyncResult OnBeginDestroyArticlesRelationWithUser(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            int id_user = ((int)(inValues[0]));
+            return ((atomic.rss.sl4.navigable.FeedsManager.IFeedsManager)(this)).BeginDestroyArticlesRelationWithUser(id_user, callback, asyncState);
+        }
+        
+        private object[] OnEndDestroyArticlesRelationWithUser(System.IAsyncResult result) {
+            ((atomic.rss.sl4.navigable.FeedsManager.IFeedsManager)(this)).EndDestroyArticlesRelationWithUser(result);
+            return null;
+        }
+        
+        private void OnDestroyArticlesRelationWithUserCompleted(object state) {
+            if ((this.DestroyArticlesRelationWithUserCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.DestroyArticlesRelationWithUserCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void DestroyArticlesRelationWithUserAsync(int id_user) {
+            this.DestroyArticlesRelationWithUserAsync(id_user, null);
+        }
+        
+        public void DestroyArticlesRelationWithUserAsync(int id_user, object userState) {
+            if ((this.onBeginDestroyArticlesRelationWithUserDelegate == null)) {
+                this.onBeginDestroyArticlesRelationWithUserDelegate = new BeginOperationDelegate(this.OnBeginDestroyArticlesRelationWithUser);
+            }
+            if ((this.onEndDestroyArticlesRelationWithUserDelegate == null)) {
+                this.onEndDestroyArticlesRelationWithUserDelegate = new EndOperationDelegate(this.OnEndDestroyArticlesRelationWithUser);
+            }
+            if ((this.onDestroyArticlesRelationWithUserCompletedDelegate == null)) {
+                this.onDestroyArticlesRelationWithUserCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnDestroyArticlesRelationWithUserCompleted);
+            }
+            base.InvokeAsync(this.onBeginDestroyArticlesRelationWithUserDelegate, new object[] {
+                        id_user}, this.onEndDestroyArticlesRelationWithUserDelegate, this.onDestroyArticlesRelationWithUserCompletedDelegate, userState);
         }
         
         private System.IAsyncResult OnBeginOpen(object[] inValues, System.AsyncCallback callback, object asyncState) {
@@ -1099,6 +1215,18 @@ namespace atomic.rss.sl4.navigable.FeedsManager {
                 base.EndInvoke("DestroyChannelsRelation", _args, result);
             }
             
+            public System.IAsyncResult BeginDestroyChannelsRelationWithUser(int id_user, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = id_user;
+                System.IAsyncResult _result = base.BeginInvoke("DestroyChannelsRelationWithUser", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public void EndDestroyChannelsRelationWithUser(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                base.EndInvoke("DestroyChannelsRelationWithUser", _args, result);
+            }
+            
             public System.IAsyncResult BeginDestroyArticlesRelation(int id_channels, System.AsyncCallback callback, object asyncState) {
                 object[] _args = new object[1];
                 _args[0] = id_channels;
@@ -1109,6 +1237,18 @@ namespace atomic.rss.sl4.navigable.FeedsManager {
             public void EndDestroyArticlesRelation(System.IAsyncResult result) {
                 object[] _args = new object[0];
                 base.EndInvoke("DestroyArticlesRelation", _args, result);
+            }
+            
+            public System.IAsyncResult BeginDestroyArticlesRelationWithUser(int id_user, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = id_user;
+                System.IAsyncResult _result = base.BeginInvoke("DestroyArticlesRelationWithUser", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public void EndDestroyArticlesRelationWithUser(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                base.EndInvoke("DestroyArticlesRelationWithUser", _args, result);
             }
         }
     }

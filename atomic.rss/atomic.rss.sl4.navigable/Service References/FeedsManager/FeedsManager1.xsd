@@ -130,6 +130,18 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
+  <xs:element name="DestroyChannelsRelationWithUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id_user" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DestroyChannelsRelationWithUserResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
   <xs:element name="DestroyArticlesRelation">
     <xs:complexType>
       <xs:sequence>
@@ -138,6 +150,18 @@
     </xs:complexType>
   </xs:element>
   <xs:element name="DestroyArticlesRelationResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DestroyArticlesRelationWithUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id_user" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DestroyArticlesRelationWithUserResponse">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>
