@@ -43,6 +43,12 @@ namespace atomic.rss.Web.Services
         void DestroyChannelsRelation(int id_channels);
 
         [OperationContract]
+        void DestroyChannelsRelationWithUser(int id_user);
+
+        [OperationContract]
         void DestroyArticlesRelation(int id_channels);
+
+        [OperationContract]
+        void DestroyArticlesRelationWithUser(int id_user);
     }
 }

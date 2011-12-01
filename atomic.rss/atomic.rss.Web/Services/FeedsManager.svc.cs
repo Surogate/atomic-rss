@@ -328,5 +328,47 @@ namespace atomic.rss.Web.Services
                 Debug.WriteLine(e.Message);
             }
         }
+
+        [RequiresRole("Admin", ErrorMessage = @"You must be part of the administration team.")]
+        public void DestroyChannelsRelationWithUser(int id_user)
+        {
+            try
+            {
+                using (BD.AtomicRssDatabaseContainer context = new BD.AtomicRssDatabaseContainer())
+                {
+                    BD.Users user = (from el in context.UsersSet where el.Id == id_user select el).FirstOrDefault();
+                    if (user != null)
+                    {
+                        user.Articles.Clear();
+                    }
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+        [RequiresRole("Admin", ErrorMessage = @"You must be part of the administration team.")]
+        public void DestroyArticlesRelationWithUser(int id_user)
+        {
+            try
+            {
+                using (BD.AtomicRssDatabaseContainer context = new BD.AtomicRssDatabaseContainer())
+                {
+                    BD.Users user = (from el in context.UsersSet where el.Id == id_user select el).FirstOrDefault();
+                    if (user != null)
+                    {
+                        user.Channels.Clear();
+                    }
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
     }
 }
