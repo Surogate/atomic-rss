@@ -81,23 +81,23 @@ namespace atomic.rss.Web.Services
                     {
                         chan = new BD.Channels();
                         chan.Author = "Unkwon";
-                        chan.Language = sfeed.Language;
-                        chan.Description = sfeed.Description.Text;
+                        chan.Language = (sfeed.Language == null) ? ("Uk") : (sfeed.Language);
+                        chan.Description = (sfeed.Description.Text.Length > 256) ? (sfeed.Description.Text.Substring(0, 256)) : (sfeed.Description.Text);
                         chan.Title = sfeed.Title.Text;
-                        chan.Date = sfeed.LastUpdatedTime.DateTime;
+                        chan.Date = DateTime.Now; // Corrige la plus part des problemes de loading de nouveau channel
                         chan.Link = channels;
                         context.ChannelsSet.AddObject(chan);
-                        foreach (SyndicationItem article in sfeed.Items)
-                        {
-                            BD.Articles a = new BD.Articles();
-                            a.Date = article.PublishDate.DateTime;
-                            a.Title = article.Title.Text;
-                            a.Description = article.Summary.Text;
-                            a.GUID = "0000";
-                            a.Link = article.Id;
-                            chan.Articles.Add(a);
-                            context.ArticlesSet.AddObject(a);
-                        }
+                        //foreach (SyndicationItem article in sfeed.Items)
+                        //{
+                        //    BD.Articles a = new BD.Articles();
+                        //    a.Date = article.PublishDate.DateTime;
+                        //    a.Title = article.Title.Text;
+                        //    a.Description = article.Summary.Text;
+                        //    a.GUID = "0000";
+                        //    a.Link = article.Id;
+                        //    chan.Articles.Add(a);
+                        //    context.ArticlesSet.AddObject(a);
+                        //}
                         chan.Users.Add(u);
                     }
                     context.SaveChanges();

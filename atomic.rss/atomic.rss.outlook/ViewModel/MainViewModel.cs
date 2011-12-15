@@ -132,6 +132,10 @@ namespace atomic.rss.outlook.ViewModel
                     LoginViewVisibility = Visibility.Hidden;
                     FeedsViewVisibility = Visibility.Visible;
                 }
+                else
+                {
+                    MessageBox.Show("Wrong password or bad login. Please try again.");
+                }
             }
             catch (Exception e)
             {

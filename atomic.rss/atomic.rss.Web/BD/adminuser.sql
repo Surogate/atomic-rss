@@ -3,7 +3,7 @@ INSERT INTO [atomic.rss].[dbo].[UsersSet]
            ,[Passwords]
            ,[IsAdmin])
      VALUES
-           ('admin@atomic.rss', 'admin!',1)
+           ('admin@atomic.rss', 'test!',1)
 GO
 
 
