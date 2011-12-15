@@ -156,8 +156,14 @@ namespace atomic.rss.outlook.FeedsManager {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFeedsManager/DestroyChannelsRelation", ReplyAction="http://tempuri.org/IFeedsManager/DestroyChannelsRelationResponse")]
         void DestroyChannelsRelation(int id_channels);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFeedsManager/DestroyChannelsRelationWithUser", ReplyAction="http://tempuri.org/IFeedsManager/DestroyChannelsRelationWithUserResponse")]
+        void DestroyChannelsRelationWithUser(int id_user);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFeedsManager/DestroyArticlesRelation", ReplyAction="http://tempuri.org/IFeedsManager/DestroyArticlesRelationResponse")]
         void DestroyArticlesRelation(int id_channels);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFeedsManager/DestroyArticlesRelationWithUser", ReplyAction="http://tempuri.org/IFeedsManager/DestroyArticlesRelationWithUserResponse")]
+        void DestroyArticlesRelationWithUser(int id_user);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -227,8 +233,16 @@ namespace atomic.rss.outlook.FeedsManager {
             base.Channel.DestroyChannelsRelation(id_channels);
         }
         
+        public void DestroyChannelsRelationWithUser(int id_user) {
+            base.Channel.DestroyChannelsRelationWithUser(id_user);
+        }
+        
         public void DestroyArticlesRelation(int id_channels) {
             base.Channel.DestroyArticlesRelation(id_channels);
+        }
+        
+        public void DestroyArticlesRelationWithUser(int id_user) {
+            base.Channel.DestroyArticlesRelationWithUser(id_user);
         }
     }
 }

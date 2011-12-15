@@ -380,7 +380,6 @@ namespace atomic.rss.sl4.navigable.ViewModel
                     FeedsManager.FeedsManagerClient clt = new FeedsManager.FeedsManagerClient();
                     clt.AddChannelsAsync(WebContext.Current.Authentication.User.Identity.Name, uri_channel_);
                     clt.AddChannelsCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clt_AddChannelsCompleted);
-                    refresh();
                 }
                 else
                     errorWindow("Please fill the text box with correct url before adding it.");

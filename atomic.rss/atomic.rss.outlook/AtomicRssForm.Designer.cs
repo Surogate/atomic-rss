@@ -42,7 +42,7 @@
             // 
             this.elementHost1.Location = new System.Drawing.Point(3, 3);
             this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(818, 472);
+            this.elementHost1.Size = new System.Drawing.Size(821, 475);
             this.elementHost1.TabIndex = 0;
             this.elementHost1.Text = "elementHost1";
             this.elementHost1.Child = this.mainView1;
